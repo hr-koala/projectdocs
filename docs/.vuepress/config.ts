@@ -13,6 +13,7 @@ import {
 } from "./configs/index.ts";
 
 export default defineUserConfig({
+  base: "/projectdocs/",
   host: "0.0.0.0",
   locales: {
     "/": {
@@ -32,13 +33,13 @@ export default defineUserConfig({
    */
   theme: defaultTheme({
     logo: "/images/logo.png",
-    repo: "hr-koala/project-docs", // 项目仓库的 URL
+    repo: "hr-koala/projectdocs", // 项目仓库的 URL
     // 自定义仓库链接文字。默认从 `themeConfig.repo` 中自动推断为
     // "GitHub"/"GitLab"/"Bitbucket" 其中之一，或是 "Source"。
     // repoLabel: "Github",
     docsDir: "docs", // 文档源文件存放在仓库中的目录名
     // 假如你的文档仓库和项目本身不在一个仓库：
-    // docsRepo: "hr-koala/project-docs",
+    // docsRepo: "hr-koala/projectdocs",
     // docsBranch: "master",
     // displayAllHeaders: true,
     contributors: false,
