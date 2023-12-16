@@ -1,0 +1,31 @@
+{
+  "name": "projectdocs",
+  "version": "1.0.0",
+  "description": "vuepress v2 工程文档",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": "git+https://github.com/hr-koala/projectdocs.git",
+  "keywords": [
+    "web",
+    "vuepress",
+    "vue3",
+    "react"
+  ],
+  "author": "htong <htong890@outlook.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hr-koala/projectdocs/issues"
+  },
+  "homepage": "https://github.com/hr-koala/projectdocs#readme",
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-beta.27",
+    "@vuepress/plugin-docsearch": "^2.0.0-beta.27",
+    "@vuepress/plugin-prismjs": "^2.0.0-beta.27",
+    "@vuepress/plugin-pwa": "^2.0.0-beta.27",
+    "@vuepress/plugin-search": "^2.0.0-beta.27",
+    "vuepress": "^2.0.0-beta.27"
+  }
+}
