@@ -26,8 +26,8 @@
     "@vuepress/client": "2.0.0-rc.0",
     "@vuepress/plugin-docsearch": "2.0.0-rc.0",
     "@vuepress/plugin-prismjs": "2.0.0-rc.0",
-    "@vuepress/plugin-pwa": "^1.9.10",
-    "@vuepress/plugin-search": "^1.9.10",
+    "@vuepress/plugin-pwa": "2.0.0-rc.0",
+    "@vuepress/plugin-search": "2.0.0-rc.0",
     "vue": "^3.3.12",
     "vuepress": "2.0.0-rc.0"
   }
