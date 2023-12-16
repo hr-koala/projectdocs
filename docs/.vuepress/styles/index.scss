@@ -1,0 +1,30 @@
+// https://v2.vuepress.vuejs.org/zh/reference/default-theme/styles.html
+:root {
+  scroll-behavior: smooth;
+}
+strong {
+  font-weight: bold;
+}
+code,
+pre {
+  overflow: auto;
+  position: relative;
+  line-height: 1.375;
+  // font-family: "Menlo, Monaco, Consolas, Courier New, monospace";
+}
+
+// dark
+html.dark {
+  strong em,
+  strong {
+    color: #036aca;
+  }
+  strong {
+    font-weight: bold;
+  }
+  code {
+    word-break: break-word;
+    background-color: #fff5f5;
+    color: #ff502c;
+  }
+}
