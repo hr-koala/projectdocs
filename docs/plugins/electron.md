@@ -22,6 +22,7 @@
 ```
 
 ```ts
+// vite.config.ts
 import { rmSync } from "node:fs";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -116,6 +117,7 @@ export default defineConfig(({ command }) => {
 ```
 
 ```tsx
+// main.ts
 import "./samples/node-api";
 
 createApp(App)
@@ -126,6 +128,7 @@ createApp(App)
 ```
 
 ```tsx
+// ./samples/node-api
 import { lstat } from "node:fs/promises";
 import { cwd } from "node:process";
 import { ipcRenderer } from "electron";
