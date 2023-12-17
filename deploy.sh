@@ -20,7 +20,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
-# https://hr-koala.github.io/projectdocs/
 git push -f git@github.com:hr-koala/projectdocs.git master:gh-pages
 
 cd -

@@ -13,7 +13,7 @@ import {
 } from "./configs/index.ts";
 
 export default defineUserConfig({
-  base:"/projectdocs/"
+  base: "/projectdocs/",
   host: "0.0.0.0",
   locales: {
     "/": {
