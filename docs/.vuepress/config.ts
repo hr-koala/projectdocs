@@ -13,7 +13,6 @@ import {
 } from "./configs/index.ts";
 
 export default defineUserConfig({
-  host: "0.0.0.0",
   locales: {
     "/": {
       lang: "en-US",
@@ -21,7 +20,7 @@ export default defineUserConfig({
       description: "Vue-powered Static Site Generator",
     },
     "/zh/": {
-      lang: "简体中文",
+      lang: "zh-CN",
       title: "博客和随笔",
       description: "Vue 驱动的静态网站生成器",
     },
