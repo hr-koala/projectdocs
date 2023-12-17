@@ -27,12 +27,12 @@ const s = new Set();
 
 `Set`的实例关于增删改查的方法：
 
-- add()
-- delete()
-- has()
-- clear()
+- `add()`
+- `delete()`
+- `has()`
+- `clear()`
 
-### add()
+### `add()`
 
 添加某个值，返回 `Set` 结构本身  
 当添加实例中已经存在的元素，`set`不会进行处理添加
@@ -41,7 +41,7 @@ const s = new Set();
 s.add(1).add(2).add(2); // 2只被添加了一次
 ```
 
-### delete()
+### `delete()`
 
 删除某个值，返回一个布尔值，表示删除是否成功
 
@@ -49,7 +49,7 @@ s.add(1).add(2).add(2); // 2只被添加了一次
 s.delete(1);
 ```
 
-### has()
+### `has()`
 
 返回一个布尔值，判断该值是否为`Set`的成员
 
@@ -57,7 +57,7 @@ s.delete(1);
 s.has(2);
 ```
 
-### clear()
+### `clear()`
 
 清除所有成员，没有返回值
 
@@ -71,16 +71,16 @@ s.clear();
 
 关于遍历的方法，有如下：
 
-- keys()：返回键名的遍历器
-- values()：返回键值的遍历器
-- entries()：返回键值对的遍历器
-- forEach()：使用回调函数遍历每个成员
+- `keys()`：返回键名的遍历器
+- `values()`：返回键值的遍历器
+- `entries()`：返回键值对的遍历器
+- `forEach()`：使用回调函数遍历每个成员
 
 `Set`的遍历顺序就是插入顺序
 
 `keys`方法、`values`方法、`entries`方法返回的都是遍历器对象
 
-```javascript
+```js
 let set = new Set(["red", "green", "blue"]);
 
 for (let item of set.keys()) {
@@ -107,7 +107,7 @@ for (let item of set.entries()) {
 
 `forEach()`用于对每个成员执行某种操作，没有返回值，键值、键名都相等，同样的`forEach`方法有第二个参数，用于绑定处理函数的`this`
 
-```javascript
+```js
 let set = new Set([1, 4, 9]);
 set.forEach((value, key) => console.log(key + " : " + value));
 // 1 : 1
@@ -117,7 +117,7 @@ set.forEach((value, key) => console.log(key + " : " + value));
 
 扩展运算符和` Set` 结构相结合实现数组或字符串去重
 
-```javascript
+```js
 // 数组
 let arr = [3, 5, 2, 2, 5, 5];
 let unique = [...new Set(arr)]; // [3, 5, 2]
@@ -160,12 +160,12 @@ const m = new Map();
 
 `Map` 结构的实例针对增删改查有以下属性和操作方法：
 
-- size 属性
-- set()
-- get()
-- has()
-- delete()
-- clear()
+- `size` 属性
+- `set()`
+- `get()`
+- `has()`
+- `delete()`
+- `clear()`
 
 ### size
 
@@ -179,7 +179,7 @@ map.set("bar", false);
 map.size; // 2
 ```
 
-### set()
+### `set()`
 
 设置键名`key`对应的键值为`value`，然后返回整个 Map 结构
 
@@ -187,7 +187,7 @@ map.size; // 2
 
 同时返回的是当前`Map`对象，可采用链式写法
 
-```javascript
+```js
 const m = new Map();
 
 m.set("edition", 6); // 键是字符串
@@ -196,11 +196,11 @@ m.set(undefined, "nah"); // 键是 undefined
 m.set(1, "a").set(2, "b").set(3, "c"); // 链式操作
 ```
 
-### get()
+### `get()`
 
 `get`方法读取`key`对应的键值，如果找不到`key`，返回`undefined`
 
-```javascript
+```js
 const m = new Map();
 
 const hello = function () {
@@ -211,11 +211,11 @@ m.set(hello, "Hello ES6!"); // 键是函数
 m.get(hello); // Hello ES6!
 ```
 
-### has()
+### `has()`
 
 `has`方法返回一个布尔值，表示某个键是否在当前 Map 对象之中
 
-```javascript
+```js
 const m = new Map();
 
 m.set("edition", 6);
@@ -228,11 +228,11 @@ m.has(262); // true
 m.has(undefined); // true
 ```
 
-### delete()
+### `delete()`
 
 `delete`方法删除某个键，返回`true`。如果删除失败，返回`false`
 
-```javascript
+```js
 const m = new Map();
 m.set(undefined, "nah");
 m.has(undefined); // true
@@ -241,11 +241,11 @@ m.delete(undefined);
 m.has(undefined); // false
 ```
 
-### clear()
+### `clear()`
 
 `clear`方法清除所有成员，没有返回值
 
-```javascript
+```js
 let map = new Map();
 map.set("foo", true);
 map.set("bar", false);
@@ -259,14 +259,14 @@ map.size; // 0
 
 `Map `结构原生提供三个遍历器生成函数和一个遍历方法：
 
-- keys()：返回键名的遍历器
-- values()：返回键值的遍历器
-- entries()：返回所有成员的遍历器
-- forEach()：遍历 Map 的所有成员
+- `keys()`：返回键名的遍历器
+- `values()`：返回键值的遍历器
+- `entries()`：返回所有成员的遍历器
+- `forEach()`：遍历 Map 的所有成员
 
 遍历顺序就是插入顺序
 
-```javascript
+```js
 const map = new Map([
   ["F", "no"],
   ["T", "yes"],
@@ -362,7 +362,7 @@ console.log(ws); //WeakSet {{…}, {…}}
 - 没有遍历操作的`API`
 - 没有`clear`清空方法
 
-```javascript
+```js
 // WeakMap 可以使用 set 方法添加成员
 const wm1 = new WeakMap();
 const key = { foo: 1 };
@@ -382,7 +382,7 @@ wm2.get(k2); // "bar"
 
 `WeakMap`只接受对象作为键名（`null`除外），不接受其他类型的值作为键名
 
-```javascript
+```js
 const map = new WeakMap();
 map.set(1, 2);
 // TypeError: 1 is not an object!
@@ -398,7 +398,7 @@ map.set(null, 2);
 
 在网页的 DOM 元素上添加数据，就可以使用`WeakMap`结构，当该 DOM 元素被清除，其所对应的`WeakMap`记录就会自动被移除
 
-```javascript
+```js
 const wm = new WeakMap();
 
 const element = document.getElementById("example");
@@ -426,13 +426,13 @@ wm.get(key);
 
 应用场景 Set 用于数据重组，Map 用于数据储存
 
-- Set：
+- **Set**：
 
 1. 成员不能重复
 2. 只有键值没有键名，类似数组
-3. 可以遍历，方法有 add, delete,has
+3. 可以遍历，方法有 `add`, `delete`,`has`
 
-- Map:
+- **Map**:
 
 1. 本质上是健值对的集合，类似集合
 2. 可以遍历，可以跟各种数据格式转换
