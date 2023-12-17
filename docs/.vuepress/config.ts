@@ -13,7 +13,6 @@ import {
 } from "./configs/index.ts";
 
 export default defineUserConfig({
-  base: "/projectdocs.github.io/",
   host: "0.0.0.0",
   locales: {
     "/": {
