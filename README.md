@@ -2,6 +2,9 @@
 
 文件文档
 
+> git init
+> npm init
+
 ```ts
 npm install
 npm run docs:dev
