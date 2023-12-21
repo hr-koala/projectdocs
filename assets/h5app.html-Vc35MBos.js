@@ -1,0 +1,1 @@
+import{_ as a,o as t,c,a as e,d as o}from"./app-lzSeYDl-.js";const r={},s=e("h1",{id:"h5app",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#h5app","aria-hidden":"true"},"#"),o(" h5app")],-1),n=[s];function _(h,d){return t(),c("div",null,n)}const i=a(r,[["render",_],["__file","h5app.html.vue"]]);export{i as default};

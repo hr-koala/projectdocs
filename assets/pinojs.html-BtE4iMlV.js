@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-4354e224","path":"/plugins/pinojs.html","title":"","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"掌握日志记录：深入了解 Pino","slug":"掌握日志记录-深入了解-pino","link":"#掌握日志记录-深入了解-pino","children":[]}],"git":{"updatedTime":1702751498000},"filePathRelative":"plugins/pinojs.md"}');export{e as data};

@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-5ac5043a","path":"/plugins/setting_json.html","title":"setting.json","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":null},"filePathRelative":"plugins/setting_json.md"}');export{t as data};

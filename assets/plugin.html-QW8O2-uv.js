@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-f362a36a","path":"/webpack/plugin.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1702751498000},"filePathRelative":"webpack/plugin.md"}');export{e as data};

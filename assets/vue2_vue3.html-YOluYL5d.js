@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-233ef87c","path":"/vue3/vue2_vue3.html","title":"Vue 2 升级 Vue 3","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":null},"filePathRelative":"vue3/vue2_vue3.md"}');export{e as data};

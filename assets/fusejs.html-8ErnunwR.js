@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-57624b27","path":"/plugins/fusejs.html","title":"","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"fuse.js","slug":"fuse-js","link":"#fuse-js","children":[]}],"git":{"updatedTime":1702751498000},"filePathRelative":"plugins/fusejs.md"}');export{e as data};

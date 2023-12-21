@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-dff82298","path":"/react/react_build.html","title":"从零搭建 Vite + React 开发环境","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":null},"filePathRelative":"react/react_build.md"}');export{t as data};

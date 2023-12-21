@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-34871d3a","path":"/vue/vue_event.html","title":"vue 源码解析之 Event 原理","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":null},"filePathRelative":"vue/vue_event.md"}');export{e as data};

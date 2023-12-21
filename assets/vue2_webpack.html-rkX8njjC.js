@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-66245884","path":"/webpack/vue2_webpack.html","title":"","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"Vue2 项目的 Webpack 配置","slug":"vue2-项目的-webpack-配置","link":"#vue2-项目的-webpack-配置","children":[]}],"git":{"updatedTime":1702751498000},"filePathRelative":"webpack/vue2_webpack.md"}');export{e as data};

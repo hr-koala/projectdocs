@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-933c62b0","path":"/plugins/path_pathbrowser.html","title":"","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"path path-browserify","slug":"path-path-browserify","link":"#path-path-browserify","children":[]}],"git":{"updatedTime":1702751498000},"filePathRelative":"plugins/path_pathbrowser.md"}');export{t as data};
