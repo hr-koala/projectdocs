@@ -2,6 +2,8 @@
 
 ## React-Router 的实现原理是什么？
 
+`npm i react-router react-router-dom@6 `
+
 客户端路由实现的思想：
 
 - 基于 `hash` 的路由：通过**锚点**来改变浏览器的 URL,通过监听 `hashchange` 事件，感知 `hash` 的变化
@@ -141,7 +143,7 @@ let history = useHistory();
 2.使用 `this.props.history` 获取历史对象
 
 ```tsx
-let history = this.props.history;
+let history = this.props.history
 ```
 
 ## React-Router 4 怎样在路由变化时重新渲染同一个组件？
@@ -175,8 +177,8 @@ class NewsList extends Component {
 
 React-Router 支持使用 `hash`（对应 `HashRouter`）和 `browser`（对应 `BrowserRouter`） 两种路由规则， react-router-dom 提供了 `BrowserRouter` 和 `HashRouter` 两个组件来实现应用的 UI 和 URL 同步：
 
-- `BrowserRouter` 创建的 URL 格式：http://xxx.com/path
-- `HashRouter` 创建的 URL 格式：http://xxx.com/#/path
+- `BrowserRouter` 创建的 URL 格式：http://xxx.com/path ；实现方式：监听 `url hash` 值实现
+- `HashRouter` 创建的 URL 格式：http://xxx.com/#/path ；实现方式：h5 的 `history.pushState API` 实现
 
 （1）**`BrowserRouter`**
 
@@ -199,6 +201,10 @@ React-Router 支持使用 `hash`（对应 `HashRouter`）和 `browser`（对应 
 ```tsx
 <BrowserRouter basename="/calendar">
  <Link to="/today" />
+ {/* Routes 作用: 提供一个路由出口，组件内部会存在多个内置的Route组件，满足条件的路由会被渲染到组件内部 */}
+ <Routes>
+  <Route path="/" element={<Home />}></Route>
+</Routes>
 </BrowserRouter>
 // 等同于
  <a href="/calendar/today" />
@@ -210,10 +216,10 @@ React-Router 支持使用 `hash`（对应 `HashRouter`）和 `browser`（对应 
 ```tsx
 // 这是默认的确认函数
 const getConfirmation = (message, callback) => {
-  const allowTransition = window.confirm(message);
-  callback(allowTransition);
-};
-<BrowserRouter getUserConfirmation={getConfirmation} />;
+  const allowTransition = window.confirm(message)
+  callback(allowTransition)
+}
+;<BrowserRouter getUserConfirmation={getConfirmation} />
 ```
 
 需要配合 `<Prompt>` 一起使用。
@@ -251,19 +257,183 @@ Route 组件的 `path` 属性用于匹配路径，因为需要匹配 / 到 Home 
 这样写的话，当 URL 的 path 为 “/login” 时， `<Route path="/" />` 和 `<Route path="/login" />` 都会被匹配，因此页面会展示 Home 和 Login 两个组件。这时就需要借助 `<Switch>` 来做到只显示一个匹配组件：
 
 ```tsx
-import { Switch, Route } from "react-router-dom";
-<Switch>
+import { Switch, Route } from 'react-router-dom'
+;<Switch>
   <Route path="/" component={Home}></Route>
   <Route path="/login" component={Login}></Route>
-</Switch>;
+</Switch>
 ```
 
 此时，再访问 “`/login`” 路径时，却**只**显示了 `Home` 组件。这是就用到了 `exact` 属性，它的作用就是**精确匹配**路径，经常与 `<Switch>` 联合使用。只有当 URL 和该 `<Route>` 的 path 属性完全一致的情况下才能匹配上：
 
 ```tsx
-import { Switch, Route } from "react-router-dom";
-<Switch>
+import { Switch, Route } from 'react-router-dom'
+;<Switch>
   <Route exact path="/" component={Home}></Route>
   <Route exact path="/login" component={Login}></Route>
-</Switch>;
+</Switch>
+```
+
+```tsx
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Layout />}>
+      <Route index element={<Board />} />
+      <Route path="article" element={<Article />} />
+    </Route>
+    <Route path="*" element={<NotFound />}></Route>
+  </Routes>
+</BrowserRouter>
+```
+
+## 编程式导航
+
+- `useNavigate` 钩子函数 `const navigate = useNavigate()`
+- `searchParams` 传参 `const [params] = useSearchParams()`
+- `params` 传参 `const params = useParams()`
+- 使用 `Outlet` 组件添加二级路由出口 `<Outlet />`
+
+```tsx
+// 导入useNavigate函数
+import { useNavigate } from 'react-router-dom'
+const Home = () => {
+  // 执行函数
+  const navigate = useNavigate()
+  // 注: 如果在跳转时不想添加历史记录，可以添加额外参数replace 为true
+  // navigate('/about', { replace: true } )
+  return (
+    <>
+      Home
+      <button onClick={() => navigate('/about')}> 跳转关于页 </button>
+    </>
+  )
+}
+```
+
+## 集中式路由配置
+
+```tsx
+import { BrowserRouter, Routes, Route, useRoutes } from 'react-router-dom'
+
+import Layout from './pages/Layout'
+import Board from './pages/Board'
+import Article from './pages/Article'
+import NotFound from './pages/NotFound'
+
+// 1. 准备一个路由数组 数组中定义所有的路由对应关系
+const routesList = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        element: <Board />,
+        index: true, // index设置为true 变成默认的二级路由
+      },
+      {
+        path: 'article',
+        element: <Article />,
+      },
+    ],
+  },
+  // 增加n个路由对应关系
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+]
+
+// 2. 使用useRoutes方法传入routesList生成Routes组件
+function WrapperRoutes() {
+  let element = useRoutes(routesList)
+  return element
+}
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        {/* 3. 替换之前的Routes组件 */}
+        <WrapperRoutes />
+      </BrowserRouter>
+    </div>
+  )
+}
+export default App
+```
+
+```tsx
+import { createBrowserHistory } from 'history'
+const history = createBrowserHistory()
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Routes,
+  Route,
+} from 'react-router-dom'
+import { history } from './utils'
+
+import { lazy, Suspense } from 'react'
+// 按需导入组件
+const Login = lazy(() => import('./pages/Login'))
+const Layout = lazy(() => import('./pages/Layout'))
+const Home = lazy(() => import('./pages/Home'))
+const Article = lazy(() => import('./pages/Article'))
+const Publish = lazy(() => import('./pages/Publish'))
+function App() {
+  return (
+    // 路由配置
+    <HistoryRouter history={history}>
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{
+                textAlign: 'center',
+                marginTop: 200,
+              }}
+            >
+              loading...
+            </div>
+          }
+        >
+          <Routes>
+            {/* 创建路由path和组件对应关系 */}
+            {/* Layout需要鉴权处理的 */}
+            {/* 这里的Layout不一定不能写死 要根据是否登录进行判断 */}
+            <Route
+              path="/"
+              element={
+                <AuthComponent>
+                  <Layout />
+                </AuthComponent>
+              }
+            >
+              <Route index element={<Home />}></Route>
+              <Route path="article" element={<Article />}></Route>
+              <Route path="publish" element={<Publish />}></Route>
+            </Route>
+            {/* 这个不需要 */}
+            <Route path="/login" element={<Login />}></Route>
+          </Routes>
+        </Suspense>
+      </div>
+    </HistoryRouter>
+  )
+}
+export default App
+
+// 1. 判断token是否存在
+// 2. 如果存在 直接正常渲染
+// 3. 如果不存在 重定向到登录路由
+// 高阶组件:把一个组件当成另外一个组件的参数传入
+// 然后通过一定的判断 返回新的组件
+import { getToken } from '@/utils'
+import { Navigate } from 'react-router-dom'
+function AuthComponent({ children }) {
+  const isToken = getToken()
+  if (isToken) {
+    return <>{children}</>
+  } else {
+    return <Navigate to="/login" replace />
+  }
+}
 ```

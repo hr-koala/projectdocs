@@ -2,9 +2,12 @@
 
 ## 1. 对 React Hook 的理解，它的实现原理是什么
 
+> Hooks 的本质：一套能够使函数组件更强大，更灵活的“钩子”.**让函数组件可以拥有自己的状态**
+> Hooks 的出现解决了俩个问题: 1. 组件的状态逻辑复用 2.class 组件自身的问题
+
 React-Hooks 是 React 团队在 React 组件开发实践中，逐渐认知到的一个改进点，这背后其实涉及对**类组件**和**函数组件**两种组件形式的思考和侧重。
 
-（1）**类组件**：所谓类组件，就是基于 `ES6 Class` 这种写法，通过继承 `React.Component` 得来的 React 组件。以下是一个类组件：
+- （1）**类组件**：所谓类组件，就是基于 `ES6 Class` 这种写法，通过继承 `React.Component` 得来的 React 组件。以下是一个类组件：
 
 ```tsx
 class DemoClass extends React.Component {
@@ -35,16 +38,24 @@ class DemoClass extends React.Component {
 
 当然，这也是类组件的一个不便，它太繁杂了，对于解决许多问题来说，编写一个类组件实在是一个过于复杂的姿势。复杂的姿势必然带来高昂的理解成本，这也是我们所不想看到的。除此之外，由于开发者编写的逻辑在封装后是和组件粘在一起的，这就使得**类组件内部的逻辑难以实现拆分和复用**。
 
-（2）**函数组件**：函数组件就是以函数的形态存在的 React 组件。早期并没有 React-Hooks，函数组件内部无法定义和维护 state，因此它还有一个别名叫“**无状态组件**”。以下是一个函数组件：
+- （2）**函数组件**：函数组件就是以函数的形态存在的 React 组件。早期并没有 React-Hooks，函数组件内部无法定义和维护 state，因此它还有一个别名叫“**无状态组件**”。以下是一个函数组件：
 
 ```tsx
 function DemoFunction(props) {
-  const { text } = props;
+  const { text } = props
+  const [count, setCount] = useState(0)
   return (
     <div className="demoFunction">
       <p>{`函数组件接收的内容：[${text}]`}</p>
+      <button
+        onClick={() => {
+          setCount(count + 1)
+        }}
+      >
+        {count}
+      </button>
     </div>
-  );
+  )
 }
 ```
 
@@ -77,7 +88,7 @@ React-Hooks 是一套能够使函数组件更强大、更灵活的“钩子”�
 `useState` 的用法：
 
 ```tsx
-const [count, setCount] = useState(0);
+const [count, setCount] = useState(0)
 ```
 
 可以看到 useState 返回的是一个**数组**，那么为什么是返回数组而不是返回对象呢？
@@ -87,11 +98,11 @@ const [count, setCount] = useState(0);
 数组的解构赋值
 
 ```tsx
-const foo = [1, 2, 3];
-const [one, two, three] = foo;
-console.log(one); // 1
-console.log(two); // 2
-console.log(three); // 3
+const foo = [1, 2, 3]
+const [one, two, three] = foo
+console.log(one) // 1
+console.log(two) // 2
+console.log(three) // 3
 ```
 
 对象的解构赋值
@@ -99,11 +110,11 @@ console.log(three); // 3
 ```tsx
 const user = {
   id: 888,
-  name: "xiaoxin",
-};
-const { id, name } = user;
-console.log(id); // 888
-console.log(name); // "xiaoxin"
+  name: 'xiaoxin',
+}
+const { id, name } = user
+console.log(id) // 888
+console.log(name) // "xiaoxin"
 ```
 
 看完这两个例子，答案应该就出来了：
@@ -115,9 +126,9 @@ console.log(name); // "xiaoxin"
 
 ```tsx
 // 第一次使用
-const { state, setState } = useState(false);
+const { state, setState } = useState(false)
 // 第二次使用
-const { state: counter, setState: setCounter } = useState(0);
+const { state: counter, setState: setCounter } = useState(0)
 ```
 
 这里可以看到，返回对象的使用方式还是挺麻烦的，更何况实际项目中会使用的更频繁。
@@ -173,6 +184,17 @@ React Hooks 的限制主要有两条：
 
 ## 5. useEffect 与 useLayoutEffect 的区别
 
+> 什么是副作用(`useEffect`)
+> 副作用是相对于主作用来说的，一个函数除了主作用，其他的作用就是副作用。对于 React 组件来说，主作用就是根据数据（state/props）渲染 UI，除此之外都是副作用（比如，手动修改 DOM）
+> 常见的副作用: 1. 数据请求 ajax 发送 2. 手动修改 dom 3. localstorage 操作
+
+> 执行时机:
+>
+> 1. **不添加依赖项**: 组件首次渲染执行一次，以及不管是哪个状态更改引起组件更新时都会重新执行 `useEffect(()=>{ })`
+> 2. **添加空数组**: 组件只在首次渲染时执行一次 `useEffect(()=>{ },[])`
+> 3. **添加特定依赖项**: 副作用函数在首次渲染时执行，在依赖项发生变化时重新执行 `useEffect(()=>{},[count])`
+> 4. **清理副作用**: 想要清理副作用 可以在副作用函数中的末尾 return 一个新的函数，在新的函数中编写清理副作用的逻辑 `useEffect(()=>{return()=>{}},[count])`
+
 （1）**共同点**
 
 - **运用效果**：`useEffect` 与 `useLayoutEffect` 两者都是用于处理副作用，这些副作用包括改变 DOM、设置订阅、操作定时器等。
@@ -203,15 +225,17 @@ React 团队的建议非常实用，如果实在分不清，先用 useEffect，�
 
 ```tsx
 function Indicatorfilter() {
-  let [num, setNums] = useState([0, 1, 2, 3]);
+  let [num, setNums] = useState(() => {
+    return [0, 1, 2, 3]
+  })
   const test = () => {
     // 这里坑是直接采用 push 去更新 num
     // setNums(num)是无法更新 num 的
     // 必须使用 num = [...num ,1]
-    num.push(1);
+    num.push(1)
     // num = [...num ,1]
-    setNums(num);
-  };
+    setNums(num)
+  }
   return (
     <div className="filter">
       <div onClick={test}>测试</div>
@@ -221,25 +245,25 @@ function Indicatorfilter() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 class Indicatorfilter extends React.Component<any, any> {
   constructor(props: any) {
-    super(props);
+    super(props)
     this.state = {
       nums: [1, 2, 3],
-    };
-    this.test = this.test.bind(this);
+    }
+    this.test = this.test.bind(this)
   }
   test() {
     // class采用同样的方式是没有问题的
-    this.state.nums.push(1);
+    this.state.nums.push(1)
     this.setState({
       nums: this.state.nums,
-    });
+    })
   }
   render() {
-    let { nums } = this.state;
+    let { nums } = this.state
     return (
       <div>
         <div onClick={this.test}>测试2</div>
@@ -249,7 +273,7 @@ class Indicatorfilter extends React.Component<any, any> {
           ))}
         </div>
       </div>
-    );
+    )
   }
 }
 ```
@@ -260,15 +284,15 @@ TableDeail 是一个公共组件，在调用它的父组件里面，我们通过
 
 ```tsx
 const TableDeail = ({ columns }: TableData) => {
-  const [tabColumn, setTabColumn] = useState(columns);
-};
+  const [tabColumn, setTabColumn] = useState(columns)
+}
 // 正确的做法是通过 useEffect 改变这个值
 const TableDeail = ({ columns }: TableData) => {
-  const [tabColumn, setTabColumn] = useState(columns);
+  const [tabColumn, setTabColumn] = useState(columns)
   useEffect(() => {
-    setTabColumn(columns);
-  }, [columns]);
-};
+    setTabColumn(columns)
+  }, [columns])
+}
 ```
 
 （4）**善用 `useCallback`**
@@ -278,6 +302,18 @@ const TableDeail = ({ columns }: TableData) => {
 （5）**不要滥用 useContext**
 
 可以使用基于 `useContext` 封装的状态管理工具。
+
+```tsx
+import { createContext, useContext } from 'react'
+// 创建Context对象
+const Context = createContext()
+// 底层组件通过useContext函数获取数据
+const name = useContext(Context)
+// 顶层组件通过Provider 提供数据
+<Context.Provider value={'this is name'}>
+  <div><Foo/></div>
+</Context.Provider>
+```
 
 ## useCallback 和 useMemo 区别
 
@@ -305,9 +341,9 @@ useMemo
 
 ```tsx
 function Tree() {
-  let appContextValue = useContext(AppContext);
-  let theme = appContextValue.theme;
-  return <ExpensiveTree className={theme} />;
+  let appContextValue = useContext(AppContext)
+  let theme = appContextValue.theme
+  return <ExpensiveTree className={theme} />
 }
 ```
 
@@ -316,11 +352,11 @@ function Tree() {
 
 ```tsx
 function Tree() {
-  let appContextValue = useContext(AppContext);
-  let theme = appContextValue.theme;
+  let appContextValue = useContext(AppContext)
+  let theme = appContextValue.theme
   return useMemo(() => {
-    return <ExpensiveTree className={theme} />;
-  }, [theme]);
+    return <ExpensiveTree className={theme} />
+  }, [theme])
 }
 ```
 
@@ -346,28 +382,28 @@ function Tree() {
   - 不是绝对的优化，而是一种成本的交换，并非使用所有场景
 
 ```tsx
-const { useCallback, useState, useEffect } = React;
-const set = new Set();
+const { useCallback, useState, useEffect } = React
+const set = new Set()
 const Child = ({ callback }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
   useEffect(() => {
-    console.log("09");
-    setCount(callback());
-  }, [callback]); //当callback更新时执行callback函数，得到parent组件最新的count
+    console.log('09')
+    setCount(callback())
+  }, [callback]) //当callback更新时执行callback函数，得到parent组件最新的count
 
-  return <div> child count:{count} </div>;
-};
+  return <div> child count:{count} </div>
+}
 const App = () => {
-  const [count, setCount] = useState(1);
-  const [val, setVal] = useState("");
+  const [count, setCount] = useState(1)
+  const [val, setVal] = useState('')
 
   const callback = useCallback(() => {
-    console.log(count, 8);
-    return count;
-  }, [count]); //count更新时执行
+    console.log(count, 8)
+    return count
+  }, [count]) //count更新时执行
 
-  set.add(callback); //借助ES6新增的数据类型Set来判断当依赖count变更时是否返回新的函数
-  console.log(set, 9);
+  set.add(callback) //借助ES6新增的数据类型Set来判断当依赖count变更时是否返回新的函数
+  console.log(set, 9)
 
   return (
     <div>
@@ -380,8 +416,8 @@ const App = () => {
 
       <Child callback={callback} />
     </div>
-  );
-};
+  )
+}
 ```
 
 #### [对比](https://juejin.cn/post/7146107198215553055?searchId=202312112248122D0157A90ECD11B446D2)
@@ -443,21 +479,37 @@ function MyComponent(props) {
 - `constructor` ：函数组件不需要构造函数，可以通过调用 `useState` 来初始化 `state` 。如果计算的代价比较昂贵，也可以传一个函数给 `useState`
 
 ```tsx
-const [num, UpdateNum] = useState(0);
+const [num, UpdateNum] = useState(0)
+// useEffect - 发送网络请求 不可以直接在useEffect的回调函数外层直接包裹 await ，因为异步会导致清理函数无法立即返回
+useEffect(() => {
+  async function fetchData() {
+    const res = await axios.get('http://geek.itheima.net/channels')
+    console.log(res)
+  }
+}, [])
+// useRef 使用useRef获取真实dom或组件实例的方法
+const h1Ref = useRef(null)
+return (
+  <>
+    <h1 ref={h1Ref}>this is h1</h1>
+  </>
+)
+// 底层组件通过useContext函数获取数据
+const name = useContext(Context)
 ```
 
 - `getDerivedStateFromProps` ：一般情况下，我们不需要使用它，可以在渲染过程中更新 state，以达到实现 `getDerivedStateFromProps` 的目的。
 
 ```tsx
 function ScrollView({ row }) {
-  let [isScrollingDown, setIsScrollingDown] = useState(false);
-  let [prevRow, setPrevRow] = useState(null);
+  let [isScrollingDown, setIsScrollingDown] = useState(false)
+  let [prevRow, setPrevRow] = useState(null)
   if (row !== prevRow) {
     // Row 自上次渲染以来发生过改变。更新 isScrollingDown。
-    setIsScrollingDown(prevRow !== null && row > prevRow);
-    setPrevRow(row);
+    setIsScrollingDown(prevRow !== null && row > prevRow)
+    setPrevRow(row)
   }
-  return `Scrolling down: ${isScrollingDown}`;
+  return `Scrolling down: ${isScrollingDown}`
 }
 ```
 
@@ -468,7 +520,7 @@ React 会立即退出第一次渲染并用更新后的 state 重新运行组件�
 ```tsx
 const Button = React.memo((props) => {
   // 具体的组件
-});
+})
 ```
 
 **注意**： `React.memo` 等效于 `PureComponent` ，它只**浅比较 `props`**。这里也可以使用 `useMemo` 优化每一个节点。
@@ -500,8 +552,8 @@ useEffect(() => {
   // 需要在 componentDidMount 执行的内容
   return function cleanup() {
     // 需要在 componentWillUnmount 执行的内容
-  };
-}, []);
+  }
+}, [])
 ```
 
 - `componentDidCatch` and `getDerivedStateFromError` ：目前还没有这些方法的 Hook 等价写法，但很快会加上。

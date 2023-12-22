@@ -1,6 +1,6 @@
 # React 常见问题点(一)
 
-## hooks 、useEffect、 uselazyEffect
+## hooks 、useEffect、 useLayoutEffect
 
 `React Hooks` 是 React 16.8 引入的一组函数，用于**让函数组件拥有类组件的状态管理和生命周期方法**的能力。其中，`useEffect` 和 `useLayoutEffect` 是两个用于 _处理副作用_（如数据获取、订阅、手动 DOM 操作等）的钩子，而 `useMemo` 和 `useCallback` 则用于优化性能。
 

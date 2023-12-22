@@ -1,8 +1,36 @@
 # React 组件 的理解
 
+## React 介绍
+
+React 一个专注于`构建用户界面`的 JS 库.特点：1.声明式 UI(JSX)；2.组件化；3.跨平台(react-native)。
+核心库：`React, React-dom`;
+<br/>
+概念：`JSX`是 JavaScript XML（HTML）的缩写，表示在 JS 代码中书写 HTML 结构.
+作用：在 React 中创建 HTML 结构（页面 UI 结构）<br/>
+优势：
+
+1. 采用类似于 HTML 的语法，降低学习成本，会 HTML 就会 JSX
+2. 充分利用 JS 自身的可编程能力创建 HTML 结构
+
+注意：JSX 并不是标准的 JS 语法，是 JS 的语法扩展，浏览器默认是不识别的，脚手架中内置的 `@babel/plugin-transform-react-jsx` 包，用来解析该语法
+
+语法:`{ JS 表达式 }`<br/>
+可以使用的表达式
+
+1. 字符串、数值、布尔值、null、undefined、object（ [] / {} ）
+2. 1 + 2、'abc'.split('')、['a', 'b'].join('-')
+3. fn()
+
+特别注意: **if 语句/ switch-case 语句/ 变量声明语句，这些叫做语句，不是表达式，不能出现在 {} 中！！**
+
+1. JSX 必须有`一个根节点`，如果没有根节点，可以使用<></>（幽灵节点）替代
+2. 所有标签必须形成`闭合`，成对闭合或者自闭合都可以
+3. JSX 中的语法更加贴近 JS 语法，属性名采用`驼峰命名`法 class -> className for -> htmlFor
+4. JSX 支持多行（换行），如果需要换行，需使用`()` 包裹，防止 bug 出现
+
 ## React 事件机制
 
-```js
+```jsx
 <div onClick={this.handleClick.bind(this)}> 点我 </div>
 ```
 
@@ -187,33 +215,33 @@ export default withAdminAuth(PageB);
 ```js
 class Home extends React.Component {
   render() {
-    return <h1>Hello World.</h1>;
+    return <h1>Hello World.</h1>
   }
 }
 function withTiming(WrappedComponent) {
   return class extends WrappedComponent {
     constructor(props) {
-      super(props);
-      this.start = 0;
-      this.end = 0;
+      super(props)
+      this.start = 0
+      this.end = 0
     }
     UNSAFE_componentWillMount() {
-      super.componentWillMount && super.componentWillMount();
-      this.start = Date.now();
+      super.componentWillMount && super.componentWillMount()
+      this.start = Date.now()
     }
     componentDidMount() {
-      super.componentDidMount && super.componentDidMount();
-      this.end = Date.now();
+      super.componentDidMount && super.componentDidMount()
+      this.end = Date.now()
       console.log(
         `${WrappedComponent.name} 组件渲染时间为 ${this.end - this.start} ms`
-      );
+      )
     }
     render() {
-      return super.render();
+      return super.render()
     }
-  };
+  }
 }
-export default withTiming(Home);
+export default withTiming(Home)
 ```
 
 注意：`withTiming` 是利用 **反向继承** 实现的一个高阶组件，功能是计算被包裹组件（这里是 Home 组件）的渲染时间。
@@ -270,15 +298,15 @@ export default withFetching(fetching('some-other-type'))(MovieList);
 class App extends React.Component {
   state = {
     a: 1,
-  };
+  }
   render() {
-    console.log("render");
+    console.log('render')
     return (
       <React.Fragement>
         <p>{this.state.a}</p>
         <button
           onClick={() => {
-            this.setState({ a: 1 }); // 这里并没有改变 a 的值
+            this.setState({ a: 1 }) // 这里并没有改变 a 的值
           }}
         >
           Click me
@@ -286,7 +314,7 @@ class App extends React.Component {
         <button onClick={() => this.setState(null)}>setState null</button>
         <Child />
       </React.Fragement>
-    );
+    )
   }
 }
 ```
@@ -357,6 +385,12 @@ React 声明组件的**三种**方式：
 
 2. 组件属性类型 `propTypes` 及其默认 `props` 属性 `defaultProps` 配置不同
 
+```tsx
+class List extends Component {
+  static defaultProps = {}
+}
+```
+
 - `React.createClass` 在创建组件时，有关组件 `props` 的属性类型及组件默认的属性会作为**组件实例的属性**
   来配置，其中 `defaultProps` 是使用 `getDefaultProps` 的方法来获取默认组件属性的
 - React.Component 在创建组件时配置这两个对应信息时，他们是作为**组件类的属性**，不是组件实例的
@@ -370,6 +404,23 @@ React 声明组件的**三种**方式：
 ## 对有状态组件和无状态组件的理解及使用场景
 
 （1）**有状态组件**
+
+```tsx
+class Bar from React.Component{
+  state:{
+    compType:'类组件',
+    count:0
+  }
+  setCount = () => {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+  render(){
+    return (<div>{this.state.compType}</div>)
+  }
+}
+```
 
 特点：
 
@@ -393,6 +444,26 @@ React 声明组件的**三种**方式：
 以充当有状态组件。当一个类组件不需要管理自身状态时，也可称为无状态组件。
 
 （2）**无状态组件**
+
+```tsx
+const Bar = (props) => {
+  const [compType, setCompType] = useState('类组件')
+  const [count, setCount] = useState(0)
+  const [list, setList] = useState([])
+  const handler = () => {
+    setCount(count + 1)
+  }
+  return (
+    <>
+      <div>{compType}</div>
+      <div onClick={handler}>{count}</div>
+      {list.map((item) => (
+        <div key={item.id}>{item.id}</div>
+      ))}
+    </>
+  )
+}
+```
 
 特点：
 
@@ -461,7 +532,7 @@ render() {
   <span id="name" ref={this.spanRef}>
     {this.state.title}
   </span>
-  <span>{this.spanRef.current ? "有值" : "无值"}</span>
+  <span>{this.spanRef.current ? '有值' : '无值'}</span>
 </>
 ```
 
@@ -478,7 +549,7 @@ Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节�
 `Portals`语法如下：( 传送门 )
 
 ```js
-ReactDOM.createPortal(child, container);
+ReactDOM.createPortal(child, container)
 ```
 
 - 第一个参数 `child` 是可渲染的 React 子项，比如元素，字符串或者片段等;
@@ -548,6 +619,27 @@ React-intl 提供了两种使用方法，一种是**引用 React 组件**，另�
 
 （1）**受控组件**
 
+```tsx
+class InputComponent extends React.Component {
+  // 声明组件状态
+  state = {
+    message: 'this is message',
+  }
+  // 声明事件回调函数
+  changeHandler = (e) => {
+    this.setState({ message: e.target.value })
+  }
+  render() {
+    return (
+      <div>
+        {/* 绑定value 绑定事件*/}
+        <input value={this.state.message} onChange={this.changeHandler} />
+      </div>
+    )
+  }
+}
+```
+
 在使用表单来收集用户输入时，例如 `<input>` `<select>` `<textearea>`等元素都要绑定一个 `change`事件，当表单的
 状态发生变化，就会触发`onChange`事件，更新组件的`state`。这种组件在 React 中被称为**受控组件**，在受控组件
 中，组件渲染出的状态与它的`value`或`checked`属性相对应，react 通过这种方式消除了组件的局部状态，使整个
@@ -555,7 +647,7 @@ React-intl 提供了两种使用方法，一种是**引用 React 组件**，另�
 
 受控组件更新 `state` 的流程：
 
-- 可以通过初始 `state` 中设置表单的默认值
+- 可以通过初始 `state` 中设置表单的默认值,将状态数据设置为 input 标签元素的`value`属性的值
 - 每当表单的值发生变化时，调用 `onChange` 事件处理器
 - 事件处理器通过事件对象 `e` 拿到改变后的状态，并更新组件的 `state`
 - 一旦通过 `setState` 方法更新 `state`，就会触发视图的重新渲染，完成表单组件的更新
@@ -565,6 +657,27 @@ React-intl 提供了两种使用方法，一种是**引用 React 组件**，另�
 就必须每个都要编写事件处理函数，这会让代码看着很臃肿，所以为了解决这种情况，出现了非受控组件。
 
 （2）**非受控组件**
+
+```tsx
+class InputComponent extends React.Component {
+  // 使用createRef产生一个存放dom的对象容器
+  msgRef = createRef()
+
+  changeHandler = () => {
+    console.log(this.msgRef.current.value)
+  }
+
+  render() {
+    return (
+      <div>
+        {/* ref绑定 获取真实dom */}
+        <input ref={this.msgRef} />
+        <button onClick={this.changeHandler}>click</button>
+      </div>
+    )
+  }
+}
+```
 
 如果一个表单组件没有`value props`（单选和复选按钮对应的是`checked props`）时，就可以称为**非受控组件**。在
 非受控组件中，可以使用一个`ref`来从`DOM`获得表单值。而不是为每个状态更新编写一个事件处理程序。
@@ -621,11 +734,11 @@ Refs 是使用 `React.createRef()` 方法创建的，通过 `ref` 属性附加�
 ```js
 class MyComponent extends React.Component {
   constructor(props) {
-    super(props);
-    this.myRef = React.createRef();
+    super(props)
+    this.myRef = React.createRef()
   }
   render() {
-    return <div ref={this.myRef} />;
+    return <div ref={this.myRef} />
   }
 }
 ```

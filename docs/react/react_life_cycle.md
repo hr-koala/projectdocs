@@ -1,6 +1,6 @@
 # React 生命周期
 
-## 1. React 的生命周期有哪些？
+## 1. [React 的生命周期](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)有哪些？
 
 React 通常将组件生命周期分为三个阶段：
 
@@ -9,6 +9,8 @@ React 通常将组件生命周期分为三个阶段：
 - 卸载过程（`Unmount`），组件从 DOM 树中被移除的过程；
 
 ![React的生命周期](/images/react/react2.png)
+
+http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
 ### 1. 组件挂载阶段
 
@@ -26,8 +28,8 @@ React 通常将组件生命周期分为三个阶段：
 
 `constructor` 中通常只做两件事：
 
-- 初始化组件的 `state`
-- 给事件处理方法绑定 `this`
+- 1. 初始化组件的 `state`, 2. 创建 `Ref`
+- 3. 给事件处理方法绑定 `this`
 
 ```ts
 constructor(props) {
@@ -132,13 +134,15 @@ class App extends React.Component {
 - **字符串和数字**：被渲染成 `DOM` 中的 `text` 节点；
 - **布尔值或 `null`**：不渲染任何内容。
 
+**注意**： 不能在里面调用 setState()
+
 （4）**_componentDidMount()_**
 
 `componentDidMount()`会在组件**挂载后（插入 DOM 树中）立即调**。该阶段通常进行以下操作：
 
-- 执行依赖于 `DOM` 的操作；
-- 发送网络请求；（官方建议）
-- 添加订阅消息（会在`componentWillUnmount`取消订阅）；
+- 1. 执行依赖于 `DOM` 的操作；
+- 2. 发送网络请求；（官方建议）
+- 3. 添加订阅消息（会在`componentWillUnmount`取消订阅）；
 
 如果在 `componentDidMount` 中调用 `setState` ，就会触发一次额外的渲染，多调用了一次 `render` 函数，由于它是在浏览器刷新屏幕前执行的，所以用户对此是没有感知的，但是我们应当避免这样使用，这样会带来一定的性能问题，尽量是在 `constructor` 中初始化 state 对象。
 
@@ -146,18 +150,18 @@ class App extends React.Component {
 // 在组件装载之后，将计数数字变为 1：
 class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       counter: 0,
-    };
+    }
   }
   componentDidMount() {
     this.setState({
       counter: 1,
-    });
+    })
   }
   render() {
-    return <div className="counter">counter值: {this.state.counter}</div>;
+    return <div className="counter">counter值: {this.state.counter}</div>
   }
 }
 ```
@@ -175,7 +179,7 @@ class App extends React.Component {
 （1）**_shouldComponentUpdate_**
 
 ```ts
-shouldComponentUpdate(nextProps, nextState);
+shouldComponentUpdate(nextProps, nextState)
 ```
 
 在说这个生命周期函数之前，来看两个问题：
@@ -183,7 +187,7 @@ shouldComponentUpdate(nextProps, nextState);
 - **`setState` 函数在任何情况下都会导致组件重新渲染**吗？例如下面这种情况：
 
 ```ts
-this.setState({ number: this.state.number });
+this.setState({ number: this.state.number })
 ```
 
 - 如果没有调用 `setState，props` 值也没有变化，是不是组件就不会重新渲染？
@@ -200,7 +204,7 @@ this.setState({ number: this.state.number });
 （2）**_getSnapshotBeforeUpdate_**
 
 ```ts
-getSnapshotBeforeUpdate(prevProps, prevState);
+getSnapshotBeforeUpdate(prevProps, prevState)
 ```
 
 这个方法在 `render` 之后， `componentDidUpdate` 之前调用，有两个参数 `prevProps` 和 `prevState` ，表示更新之前的 `props` 和 `state` ，这个函数必须要和 `componentDidUpdate` 一起使用，并且要有一个返回值，默认是 `null` ，这个返回值作为第三个参数传给 `componentDidUpdate` 。
@@ -211,7 +215,7 @@ getSnapshotBeforeUpdate(prevProps, prevState);
 （3）**_componentDidUpdate_**
 `componentDidUpdate()` 会在更新后会被立即调用，首次渲染不会执行此方法。 该阶段通常进行以下操作：
 
-- 当组件更新后，对 `DOM` 进行操作；
+- 当组件更新后，对 `DOM` 进行操作；DOM 操作，可以获取到更新后的 DOM 内容，不要直接调用 setState
 - 如果你对更新前后的 `props` 进行了比较，也可以选择在此处进行网络请求；（例如，当 `props` 未发生变化
   时，则不会执行网络请求）。
 
@@ -304,29 +308,29 @@ React 主要生命周期**总结**：
 ```ts
 class ScrollingList extends React.Component {
   constructor(props) {
-    super(props);
-    this.listRef = React.createRef();
+    super(props)
+    this.listRef = React.createRef()
   }
   getSnapshotBeforeUpdate(prevProps, prevState) {
     // 我们是否在 list 中添加新的 items ？
     // 捕获滚动••位置以便我们稍后调整滚动位置。
     if (prevProps.list.length < this.props.list.length) {
-      const list = this.listRef.current;
-      return list.scrollHeight - list.scrollTop;
+      const list = this.listRef.current
+      return list.scrollHeight - list.scrollTop
     }
-    return null;
+    return null
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     // 如果我们 snapshot 有值，说明我们刚刚添加了新的 items，
     // 调整滚动位置使得这些新 items 不会将旧的 items 推出视图。
     //（这里的 snapshot 是 getSnapshotBeforeUpdate 的返回值）
     if (snapshot !== null) {
-      const list = this.listRef.current;
-      list.scrollTop = list.scrollHeight - snapshot;
+      const list = this.listRef.current
+      list.scrollTop = list.scrollHeight - snapshot
     }
   }
   render() {
-    return <div ref={this.listRef}>{/* ...contents... */}</div>;
+    return <div ref={this.listRef}>{/* ...contents... */}</div>
   }
 }
 ```
@@ -382,21 +386,21 @@ shouldComponentUpdate(nexrProps) {
   不是最完美的解决办法：
 
 ```ts
-const o2 = Object.assign({}, this.state.obj);
-o2.student.count = "0";
+const o2 = Object.assign({}, this.state.obj)
+o2.student.count = '0'
 this.setState({
   obj: o2,
-});
+})
 ```
 
 - （2）使用 `JSON.parse(JSON.stringfy())`进行深拷贝，但是遇到数据为 undefined 和函数时就会错。
 
 ```ts
-const o2 = JSON.parse(JSON.stringify(this.state.obj));
-o2.student.count = "0";
+const o2 = JSON.parse(JSON.stringify(this.state.obj))
+o2.student.count = '0'
 this.setState({
   obj: o2,
-});
+})
 ```
 
 ## state 和 props 触发更新的生命周期分别有什么区别？

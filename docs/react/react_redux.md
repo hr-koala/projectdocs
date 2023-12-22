@@ -2,6 +2,10 @@
 
 ## 1. 对 Redux 的理解，主要解决什么问题
 
+> 1. 独立于组件，无视组件之间的层级关系，简化通信问题
+> 2. **单项数据流**清晰，易于定位 bug
+> 3. 调试工具配套良好，方便调试
+
 React 是**视图层框架**。Redux 是一个用来**管理数据状态**和 UI 状态的 JavaScript 应用工具。随着 JavaScript 单页应用（SPA）开发日趋复杂， JavaScript 需要管理比任何时候都要多的 `state`（状态）， Redux 就是降低管理难度的。
 （Redux 支持 React、Angular、jQuery 甚至纯 JavaScript）。
 
@@ -19,6 +23,8 @@ Redux 提供了一个叫 `store` 的统一仓储库，组件通过 `dispatch` �
 
 ## 2. Redux 原理及工作流程
 
+![Redux 原理及工作流程](/images/react/react10.png)
+
 （1）**原理**
 Redux 源码主要分为以下几个模块文件
 
@@ -30,52 +36,52 @@ Redux 源码主要分为以下几个模块文件
 
 ```tsx
 const actionTypes = {
-  ADD: "ADD",
-  CHANGEINFO: "CHANGEINFO",
-};
+  ADD: 'ADD',
+  CHANGEINFO: 'CHANGEINFO',
+}
 const initState = {
-  info: "初始化",
-};
+  info: '初始化',
+}
 export default function initReducer(state = initState, action) {
   switch (action.type) {
     case actionTypes.CHANGEINFO:
       return {
         ...state,
-        info: action.preload.info || "",
-      };
+        info: action.preload.info || '',
+      }
     default:
-      return { ...state };
+      return { ...state }
   }
 }
-
+// 使用reducer函数生成store实例
 export default function createStore(reducer, initialState, middleFunc) {
-  if (initialState && typeof initialState === "function") {
-    middleFunc = initialState;
-    initialState = undefined;
+  if (initialState && typeof initialState === 'function') {
+    middleFunc = initialState
+    initialState = undefined
   }
-  let currentState = initialState;
-  const listeners = [];
-  if (middleFunc && typeof middleFunc === "function") {
+  let currentState = initialState // state:  一个对象 存放着我们管理的数据
+  const listeners = []
+  if (middleFunc && typeof middleFunc === 'function') {
     // 封装dispatch
-    return middleFunc(createStore)(reducer, initialState);
+    return middleFunc(createStore)(reducer, initialState)
   }
   const getState = () => {
-    return currentState;
-  };
+    return currentState
+  }
   const dispatch = (action) => {
-    currentState = reducer(currentState, action);
+    currentState = reducer(currentState, action)
     listeners.forEach((listener) => {
-      listener();
-    });
-  };
+      listener()
+    })
+  }
   const subscribe = (listener) => {
-    listeners.push(listener);
-  };
+    listeners.push(listener)
+  }
   return {
     getState,
     dispatch,
     subscribe,
-  };
+  }
 }
 ```
 
@@ -117,17 +123,17 @@ redux-thunk 缺陷:
 - **配置中间件**，在 store 的创建中配置
 
 ```tsx
-import { createStore, applyMiddleware, compose } from "redux";
-import reducer from "./reducer";
-import thunk from "redux-thunk";
+import { createStore, applyMiddleware, compose } from 'redux'
+import reducer from './reducer'
+import thunk from 'redux-thunk'
 // 设置调试工具
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-  : compose;
+  : compose
 // 设置中间件
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-const store = createStore(reducer, enhancer);
-export default store;
+const enhancer = composeEnhancers(applyMiddleware(thunk))
+const store = createStore(reducer, enhancer)
+export default store
 ```
 
 - 添加一个返回函数的 `actionCreator`，将异步请求逻辑放在里面
@@ -142,10 +148,10 @@ export default store;
 // dispatch为自动接收的store.dispatch函数
 export const getHttpAction = (url, func) => (dispatch) => {
   axios.get(url).then(function (res) {
-    const action = func(res.data);
-    dispatch(action);
-  });
-};
+    const action = func(res.data)
+    dispatch(action)
+  })
+}
 ```
 
 - 生成 action，并发送 action
@@ -199,26 +205,26 @@ export default store;
 - 将异步请求放在 sagas.js 中
 
 ```tsx
-import { takeEvery, put } from "redux-saga/effects";
-import { initTodoList } from "./actionCreator";
-import { GET_INIT_ITEM } from "./actionTypes";
-import axios from "axios";
+import { takeEvery, put } from 'redux-saga/effects'
+import { initTodoList } from './actionCreator'
+import { GET_INIT_ITEM } from './actionTypes'
+import axios from 'axios'
 function* func() {
   try {
     // 可以获取异步返回数据
-    const res = yield axios.get("/getData");
-    const action = initTodoList(res.data);
+    const res = yield axios.get('/getData')
+    const action = initTodoList(res.data)
     // 将action发送到reducer
-    yield put(action);
+    yield put(action)
   } catch (e) {
-    console.log("网络请求失败");
+    console.log('网络请求失败')
   }
 }
 function* mySaga() {
   // 自动捕获GET_INIT_ITEM类型的action，并执行func
-  yield takeEvery(GET_INIT_ITEM, func);
+  yield takeEvery(GET_INIT_ITEM, func)
 }
-export default mySaga;
+export default mySaga
 ```
 
 - 发送 action
@@ -231,6 +237,8 @@ componentDidMount(){
 ```
 
 ## 4. Redux 怎么实现属性传递，介绍下原理
+
+![Redux 原理及工作流程](/images/react/react11.webp)
 
 react-redux 数据传输 ∶ `view-->action-->reducer-->store-->view`。看下点击事件的数据是如何通过 redux 传到 view 上：
 
@@ -261,6 +269,8 @@ class App extends React.Component {
 const initialState = {
   text: 5,
 };
+// 定义reducer函数
+  // 内部主要的工作是根据不同的action 返回不同的state
 const reducer = function (state, action) {
   switch (action.type) {
     case "ADD":
@@ -277,6 +287,7 @@ let ADD = {
 let Remove = {
   type: "REMOVE",
 };
+// 使用reducer函数生成store实例
 const store = createStore(reducer);
 
 let mapStateToProps = function (state) {
@@ -427,6 +438,97 @@ const takeLatest = (pattern, saga, ...args) =>
 - mobx 相对来说比较简单，在其中有很多的抽象，mobx 更多的使用**面向对象的编程思维**; redux 会比较复杂，因为其中的**函数式编程思想**掌握起来不是那么容易，同时需要借助一系列的中间件来处理异步和副作用
 - mobx 中有更多的**抽象和封装**，调试会比较困难，同时结果也难以预测; 而 redux 提供**能够进行时间回溯的开发工具**，同时其纯函数以及更少的抽象，让调试变得更加的容易
 
+```tsx
+// 把所有的模块做统一处理
+// 导出一个统一的方法 useStore
+import React from 'react'
+import LoginStore from './login.Store'
+import UserStore from './user.Store'
+import { configure } from 'mobx'
+configure({
+  enforceActions: 'never',
+})
+class RootStore {
+  constructor() {
+    this.loginStore = new LoginStore()
+    this.userStore = new UserStore()
+    // ...
+  }
+}
+// 实例化根
+// 导出useStore context
+const rootStore = new RootStore()
+const context = React.createContext(rootStore)
+const useStore = () => React.useContext(context)
+export { useStore }
+
+// login module
+import { makeAutoObservable } from 'mobx'
+import { http, setToken, getToken, removeToken } from '@/utils'
+class LoginStore {
+  token = getToken() || ''
+  constructor() {
+    // 响应式
+    makeAutoObservable(this)
+  }
+  getToken = async ({ mobile, code }) => {
+    // 调用登录接口
+    const res = await http.post('http://geek.itheima.net//authorizations', {
+      mobile,
+      code,
+    })
+    // 存入token
+    this.token = res.data.token
+    // 存入ls
+    setToken(this.token)
+  }
+  // 退出登录
+  loginOut = () => {
+    this.token = ''
+    removeToken()
+  }
+}
+export default LoginStore
+
+import { makeAutoObservable } from 'mobx'
+import { http } from '@/utils'
+
+class UserStore {
+  userInfo = {}
+  constructor() {
+    makeAutoObservable(this)
+  }
+  getUserInfo = async () => {
+    // 调用接口获取数据
+    const res = await http.get('/user/profile')
+    this.userInfo = res.data
+  }
+}
+
+export default UserStore
+```
+
+```tsx
+import { observer } from 'mobx-react-lite'
+const GeekLayout = () => {
+  const { pathname } = useLocation()
+  const { userStore, loginStore, channelStore } = useStore()
+  useEffect(() => {
+    userStore.getUserInfo()
+    channelStore.loadChannelList()
+  }, [userStore, channelStore])
+
+  // 确定退出
+  const navigate = useNavigate()
+  const onConfirm = () => {
+    // 退出登录 删除token 跳回到登录
+    loginStore.loginOut()
+    navigate('/login')
+  }
+}
+export default observer(GeekLayout)
+```
+
 ## 9. Redux 和 Vuex 有什么区别，它们的共同思想
 
 （1）**Redux 和 Vuex 区别**
@@ -470,3 +572,280 @@ Connect 重 新 render 外部传入的原组件 `WrappedComponent` ，并把 con
 （3）**监听 store tree 变化**
 
 connect 缓存了 `store tree` 中 state 的状态，通过当前 state 状态 和变更前 state 状态进行比较，从而确定是否调用 `this.setState()` 方法触发 Connect 及其子组件的重新渲染
+
+## Mobx 集中状态管理
+
+> 安装 `mobx` 和中间件工具 `mobx-react-lite` 只能函数组件中使用
+> `yarn add  react-mobx  mobx  mobx-react-lite`
+
+优势:
+
+1. 简单: 编写无模板的极简代码精准描述你的意图
+2. 轻松实现最优渲染: 依赖自动追踪，实现最小渲染优化
+3. 架构自由: 可移植, 可测试 无特殊心智负担
+
+初始化 mobx:
+
+1. 定义数据状态 state
+2. 在构造器中实现数据响应式处理 `makeAutoObservble`
+3. 定义修改数据的函数 action
+4. 实例化 store 并导出
+
+```tsx{1,5}
+import { computed, makeAutoObservable } from 'mobx'
+class CounterStore {
+  count = 0 // 定义数据
+  list = [1, 2, 3, 4, 5, 6]
+  channelList = []
+  constructor() {
+    makeAutoObservable(this,{
+      filterList: computed // 通过get关键词 定义计算属性; 在 makeAutoObservable 方法中标记计算属性
+    })  // 响应式处理
+  }
+  // 定义修改数据的方法
+  addCount = () => {
+    this.count++
+  }
+  // 修改原数组
+  changeList = () => {
+    this.list.push(7, 8, 9)
+  }
+  // 只要调用这个方法 就可以从后端拿到数据并且存入channelList
+  setChannelList = async () => {
+    const res = await axios.get('http://geek.net/channels')
+    this.channelList = res.data.data.channels
+  }
+  // 定义计算属性
+  get filterList () {
+    return this.list.filter(item => item > 4)
+  }
+}
+const counter = new CounterStore()
+export default counter
+```
+
+```tsx
+class RootStore {
+  constructor() {
+    this.counterStore = counter
+  }
+}
+const rootStore = new RootStore()
+// context机制的数据查找链  Provider如果找不到 就找createContext方法执行时传入的参数
+const context = React.createContext(rootStore)
+const useStore = () => React.useContext(context)
+// useStore() =>  rootStore  { counterStore, taskStore }
+export { useStore }
+```
+
+React 使用 store:
+
+1. 在组件中导入`counterStore`实例对象
+2. 在组件中使用`storeStore`实例对象中的数据
+3. 通过事件调用修改数据的方法修改 store 中的数据
+4. 让组件响应数据变化
+
+```tsx
+// 导入counterStore
+import counterStore from './store'
+// 导入observer方法
+import { observer } from 'mobx-react-lite'
+function App() {
+  const { channlStore } = useStore()
+  // 1. 使用数据渲染组件
+  // 2. 触发action函数发送异步请求
+  useEffect(() => {
+    channlStore.setChannelList()
+  }, [])
+  return (
+    <div className="App">
+      <button onClick={() => counterStore.addCount()}>
+        {counterStore.count}
+      </button>
+    </div>
+  )
+}
+// 包裹组件让视图响应数据变化
+export default observer(App)
+```
+
+## @reduxjs/toolkit
+
+> 安装 redux 配套工具: `yarn add  @reduxjs/toolkit react-redux`
+
+```tsx
+import { createSlice } from '@reduxjs/toolkit'
+// createSlice方法创建一个独立的子模块
+const counter = createSlice({
+  // 模块名称独一无二
+  name: 'counter',
+  // 初始数据
+  initialState: {
+    count: 1,
+    taskList: ['react'],
+  },
+  // 修改数据的同步方法
+  reducers: {
+    add(state) {
+      state.count++
+    },
+    // action为一个对象 对象中有一个固定的属性叫做payload 为传递过来的参数
+    addTaskList(state, action) {
+      state.taskList = action.payload
+    },
+  },
+})
+const { add, addTaskList } = counter.actions
+// 创建异步
+const url = 'http://geek.itheima.net/channels'
+// 封装一个函数 在函数中return一个新函数 在新函数中封装异步
+// 得到数据之后通过dispatch函数 触发修改
+const fetchChannelList = () => {
+  return async (dispatch) => {
+    const res = await axios.get(url)
+    dispatch(setChannelList(res.data.data.channels))
+  }
+}
+const counterReducer = counter.reducer
+// 导出修改数据的函数
+export { add,addTaskList,fetchChannelList }
+// 导出reducer
+export default counterReducer
+
+// configureStore语法组合子模块
+import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from './counterStore'
+export default configureStore({
+  reducer: {
+    // 注册子模块
+    counter: counterReducer,
+  },
+})
+
+// useSelector(state => state.模块名)  方法的返回值为一个对象，对象中包含store子模块中的所有数据
+import { useSelector, useDispatch } from 'react-redux'
+import { add, addTaskList } from './store/counterStore'
+function App() {
+  // 使用数据
+  const { count } = useSelector((state) => state.counter)
+  // 修改数据
+  const dispatch = useDispatch()
+  const clickHandler = () => {
+    // 1. 生成action对象
+    const action = add()
+    // 2. 提交action进行数据更新
+    dispatch(action) //dispatch(add(2))
+    dispatch(addTaskList(['vue']) // dispatch的时候传入实参
+  }
+  useEffect(() => {
+    dispatch(fetchChannelList())
+  }, [dispatch])
+  return <button onClick={() => dispatch(addTaskList(['vue']))}>addList</button>
+}
+```
+
+#### createAsyncThunk 搭配 createSlice 中的 extraReducers 选项，实现异步请求处理
+
+- extraReducers 选项是一个函数，它接收一个 builder 参数。
+- builder 对象提供了一些方法，可定义额外的 case reducers，用于处理由异步 thunks 调度的 action，并更新 Redux Store 中的 State。
+- createAsyncThunk 用于定义异步 thunks 调度的 action
+
+```tsx
+// src/store/modules/usersSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { http } from '@/utils/http'
+// 获取用户信息列表
+export const fetchUsers = createAsyncThunk('fetchUsers', async () => {
+  const res = await http.get('/users')
+  return res.data
+})
+// 新增用户
+export const addUser = createAsyncThunk('addUser', async (params) => {
+  const res = await http.post('/users', params)
+  return res.data
+})
+const usersSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchUsers.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.users = action.payload
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.status = 'successed'
+        state.users.push(action.payload)
+      })
+  },
+})
+// 提供给useSelector使用，用于获取users列表
+export const selectAllUsers = (state) => state.usersStore.users
+export default usersSlice.reducer
+// src/App.jsx
+import { selectAllUsers } from '@/store/modules/usersSlice'
+function App() {
+  const users = useSelector(selectAllUsers)
+}
+```
+
+## Zustand
+
+> 安装调试包: `yarn add simple-zustand-devtools`
+
+```tsx
+// counterStore.jsx
+import create from 'zustand'
+// 导入核心方法
+import { mountStoreDevtool } from 'simple-zustand-devtools'
+// 创建异步action
+const fetchApi = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(['vue', 'react'])
+    }, 2000)
+  })
+}
+const useCounterStore = create((set) => ({
+  // 数据
+  count: 0,
+  list: [],
+  // 修改数据的方法
+  increase: () => set((state) => ({ count: state.count + 1 })),
+  decrease: () => set((state) => ({ count: state.count - 1 })),
+  fetchList: async () => {
+    const res = await fetchApi()
+    set({ list: res })
+  },
+}))
+// 开发环境开启调试
+if (process.env.NODE_ENV === 'development') {
+  // 第一个参数为调试的store标识
+  mountStoreDevtool('counterStore', useCounterStore)
+}
+export default useCounterStore
+// App.jsx
+import useCounterStore from './store'
+const App = () => {
+  const count = useCounterStore((state) => state.count)
+  const decrease = useCounterStore((state) => state.increase)
+  const increase = useCounterStore((state) => state.decrease)
+  // 异步支持
+  const fetchList = useCounterStore((state) => state.fetchList)
+  useEffect(() => {
+    fetchList()
+  }, [])
+  return (
+    <div>
+      <button onClick={decrease}>+</button>
+      <span>{count}</span>
+      <button onClick={increase}>-</button>
+    </div>
+  )
+}
+export default App
+```
