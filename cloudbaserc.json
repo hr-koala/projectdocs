@@ -1,0 +1,19 @@
+{
+    "envId": "projectdocs-7ge7q19w00e92687",
+    "version": "2.0",
+    "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+    "functionRoot": "./functions",
+    "functions": [],
+    "framework": {
+        "name": "projectdocs",
+        "plugins": {
+            "vuepress": {
+                "use": "@cloudbase/framework-plugin-website",
+                "inputs": {
+                    "buildCommand": "npm run docs:build",
+                    "outputPath": "docs/.vuepress/dist"
+                }
+            }
+        }
+    }
+}
