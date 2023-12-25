@@ -1,5 +1,7 @@
 # Vue3.0 性能提升主要是通过哪几方面体现
 
+![](/images/vue3/vue3-1.png)
+
 ## 一、编译阶段
 
 回顾`Vue2`，我们知道**每个组件实例都对应一个 `watcher` 实例**，它会在组件渲染的过程中把用到的数据`property`记录为依赖，当依赖发生改变，触发`setter`，则会通知`watcher`，从而使关联的组件重新渲染
@@ -80,12 +82,12 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
       _Fragment,
       null,
       [
-        _createVNode("span", null, "你好"),
-        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+        _createVNode('span', null, '你好'),
+        _createVNode('div', null, _toDisplayString(_ctx.message), 1 /* TEXT */),
       ],
       64 /* STABLE_FRAGMENT */
     )
-  );
+  )
 }
 ```
 
@@ -93,11 +95,11 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 ```js
 const _hoisted_1 = /*#__PURE__*/ _createVNode(
-  "span",
+  'span',
   null,
-  "你好",
+  '你好',
   -1 /* HOISTED */
-);
+)
 export function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (
     _openBlock(),
@@ -106,11 +108,11 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
       null,
       [
         _hoisted_1,
-        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+        _createVNode('div', null, _toDisplayString(_ctx.message), 1 /* TEXT */),
       ],
       64 /* STABLE_FRAGMENT */
     )
-  );
+  )
 }
 
 // Check the console for the AST
@@ -195,11 +197,11 @@ div>
 ::: details 编译后
 
 ```js
-import { mergeProps as _mergeProps } from "vue";
+import { mergeProps as _mergeProps } from 'vue'
 import {
   ssrRenderAttrs as _ssrRenderAttrs,
   ssrInterpolate as _ssrInterpolate,
-} from "@vue/server-renderer";
+} from '@vue/server-renderer'
 
 export function ssrRender(
   _ctx,
@@ -211,14 +213,14 @@ export function ssrRender(
   $data,
   $options
 ) {
-  const _cssVars = { style: { color: _ctx.color } };
+  const _cssVars = { style: { color: _ctx.color } }
   _push(
     `<div${_ssrRenderAttrs(
       _mergeProps(_attrs, _cssVars)
     )}><div><span>你好</span>...<div><span>你好</span><div><span>${_ssrInterpolate(
       _ctx.message
     )}</span></div></div>`
-  );
+  )
 }
 ```
 
@@ -231,24 +233,24 @@ export function ssrRender(
 任何一个函数，如`ref`、`reavtived`、`computed`等，仅仅在用到的时候才打包，没用到的模块都被摇掉，打包的整体体积变小
 
 ```js
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from 'vue'
 export default defineComponent({
   setup(props, context) {
-    const age = ref(18);
+    const age = ref(18)
 
     let state = reactive({
-      name: "test",
-    });
+      name: 'test',
+    })
 
-    const readOnlyAge = computed(() => age.value++); // 19
+    const readOnlyAge = computed(() => age.value++) // 19
 
     return {
       age,
       state,
       readOnlyAge,
-    };
+    }
   },
-});
+})
 ```
 
 ## 三、响应式系统

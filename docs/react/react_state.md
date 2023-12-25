@@ -234,25 +234,39 @@ export const connect =
 
 ## React 中怎么检验 props？验证 props 的目的是什么？
 
-React 为我们提供了`PropTypes`库来实现 Props 的验证。  
+React 为我们提供了`[PropTypes](https://legacy.reactjs.org/docs/typechecking-with-proptypes.html)`库来实现 Props 的验证。  
 `PropTypes` 是一个 React 内置的库，可以帮助你检查传递给组件的 `props` 是否符合预期。它可以验证 `props` 的类型、是否必须、枚举值等等.  
 当我们向`Props`传入的数据无效（向 Props 传入的数据类型和验证的数据类型不符）PropTypes 就会在控制台发出警告信息。它可以避免随着应用越来越复杂从而出现的问题。并且，它还可以让程序变得更易读。
-::: tip 预定义的道具 **类型**：  
-PropTypes.number | PropTypes.string | PropTypes.array | PropTypes.object | PropTypes.func | PropTypes.node | PropTypes.element | PropTypes.bool | PropTypes.symbol | PropTypes.any
+::: tip 预定义的道具 **类型**：
+
+- `yarn add prop-types`
+- 导入 `prop-types` 包
+- PropTypes.number | PropTypes.string | PropTypes.array | PropTypes.object | PropTypes.func | PropTypes.node | PropTypes.element | PropTypes.bool | PropTypes.symbol | PropTypes.any | PropTypes.shape({})
+
+- 使用 `组件名.propTypes = {}` 给组件添加校验规则
+- 常见类型：array、bool、func、number、object、string; React 元素类型：element; 必填项：isRequired; 特定的结构对象：shape({})
+
+```tsx
+// 设置默认值
+xxx.defaultProps = {}
+function List({ pageSize = 10 }) {} // 函数参数默认值来实现
+static defaultProps = { }// 使用类静态属性声明
+```
+
 :::
 
 ```ts
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 class Greeting extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <h1>Hello, {this.props.name}</h1>
   }
 }
 Greeting.propTypes = {
   name: PropTypes.string.isRequired,
   age: PropTypes.number,
-  gender: PropTypes.oneOf(["male", "female"]),
-};
+  gender: PropTypes.oneOf(['male', 'female']),
+}
 ```
 
 **注意**，`PropTypes` 库只在开发环境中运行，并且不应该在生产环境中使用。在生产环境中，你应该确保你的代码不会因为 props 不符合预期而崩溃或出现错误。
