@@ -1,7 +1,8 @@
 import { NavbarConfig } from "vuepress";
 
 export const navbarEn: NavbarConfig = [
-  { text: "Home", link: "/" },
+  { text: "大前端", link: "/largeFront" },
+  { text: "算法", link: "/algorithm" },
   {
     text: "Guide",
     children: [
@@ -12,13 +13,8 @@ export const navbarEn: NavbarConfig = [
           { text: "Gitee", link: "https://gitee.com/explore/all" },
         ],
       },
-      {
-        text: "Guide",
-        children: [
-          { text: "Common Functions", link: "/common" },
-          { text: "Content search", link: "/content" },
-        ],
-      },
     ],
   },
+  { text: "项目管理", link: "/projectManagement" },
+  {text: "其他", link: "/other"}
 ];
