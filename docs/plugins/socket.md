@@ -732,7 +732,11 @@ export class UpcWebsocketClient {
     const handleMap = this._subMap.get(topic);
     if (handleMap != null) {
       handleMap.forEach((fn) => {
-        fn(JSON.parse(msg.text));
+      try{
+      fn(JSON.parse(msg.text))
+      }catch(e){
+        console.log(e)
+      }
       });
     }
   }
