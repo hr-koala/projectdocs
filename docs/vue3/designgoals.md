@@ -225,9 +225,9 @@ createApp(App).mount('#app')
 vue 官方实现的 `createApp` 会给我们的 template 映射生成 html 代码，但是要是你不想渲染生成到 html ，而是要渲染生成到 `canvas` 之类的不是 html 的代码的时候，那就需要用到 `Custom Renderer API` 来定义自己的 render 渲染生成函数了。
 
 ```js
-import { createApp } from "./runtime-render";
-import App from "./src/App"; // 根组件
-createApp(App).mount("#app");
+import { createApp } from './runtime-render'
+import App from './src/App' // 根组件
+createApp(App).mount('#app')
 ```
 
 使用自定义渲染 API，如 `weex` 和 `myvue` 这类方案的问题就得到了完美解决。只需重写 `createApp` 即可。
@@ -264,9 +264,9 @@ Vue3 一个模板不再限制有多个根节点，(多个根节点上的 `Attrib
 </template>
 ```
 
-Vue 是国内最火的前端框架之一。性能提升，运行速度是 vue2 的 1.2-2 倍。
-体积更小，按需编译体积 vue2 要更小。
-类型推断，更好的支持 ts 这个也是趋势。
+Vue 是国内最火的前端框架之一。性能提升，**运行速度**是 vue2.x 的 1.2-2 倍。
+体积更小，**按需编译**体积 vue2 要更小。
+类型推断，更好的支持 `ts` 这个也是趋势。
 高级给予，暴露了更底层的 API 和提供更先进的内置组件。
 组合 API，能够更好的组织逻辑，封装逻辑，复用逻辑
 
@@ -355,30 +355,30 @@ composition API，其两大显著的优化：
 而通过`composition`这种形式，可以将一些复用的代码抽离出来作为一个函数，只要的使用的地方直接进行调用即可
 
 ```js
-import { toRefs, reactive, onUnmounted, onMounted } from "vue";
+import { toRefs, reactive, onUnmounted, onMounted } from 'vue'
 function useMouse() {
-  const state = reactive({ x: 0, y: 0 });
+  const state = reactive({ x: 0, y: 0 })
   const update = (e) => {
-    state.x = e.pageX;
-    state.y = e.pageY;
-  };
+    state.x = e.pageX
+    state.y = e.pageY
+  }
   onMounted(() => {
-    window.addEventListener("mousemove", update);
-  });
+    window.addEventListener('mousemove', update)
+  })
   onUnmounted(() => {
-    window.removeEventListener("mousemove", update);
-  });
+    window.removeEventListener('mousemove', update)
+  })
 
-  return toRefs(state);
+  return toRefs(state)
 }
 // 组件使用
-import useMousePosition from "./mouse";
+import useMousePosition from './mouse'
 export default {
   setup() {
-    const { x, y } = useMousePosition();
-    return { x, y };
+    const { x, y } = useMousePosition()
+    return { x, y }
   },
-};
+}
 ```
 
 可以看到，整个数据来源清晰了，即使去编写更多的`hook`函数，也不会出现命名冲突的问题

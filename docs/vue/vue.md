@@ -7,17 +7,17 @@ author: htong
 
 在 Vue 中，如果你修改了组件里的数据，Vue 会自动帮你更新视图。这是因为 Vue 采用了`数据驱动的视图更新机制`。具体来说，Vue 通过建立数据的单向绑定关系，将数据与视图绑定在一起。当数据发生改变时，Vue 会自动更新视图，反之亦然。
 
-但是，如果你修改的是数组或对象中的某个元素，而并非直接修改整个数组或对象，那么 Vue 会有些迟疑，因为这种情况对 Vue 来说是不可知的。为了解决这个问题，Vue 提供了一些特殊的方法来处理这种数组或对象的修改，如 Vue.set()、Vue.delete()、Array.prototype.splice() 等。
+但是，如果你修改的是数组或对象中的某个元素，而并非直接修改整个数组或对象，那么 Vue 会有些迟疑，因为这种情况对 Vue 来说是不可知的。为了解决这个问题，Vue 提供了一些特殊的方法来处理这种数组或对象的修改，如 `Vue.set()`、`Vue.delete()`、`Array.prototype.splice()` 等。
 
 ## MVVM、MVC 有什么区别
 
-MVC 通过分离 Model、View 和 Controller 的方式来组织代码结构。
+1. MVC 通过分离 `Model`、`View` 和 `Controller` 的方式来组织代码结构。
 
 - 其中 View 负责页面的显示逻辑，
 - Model 负责存储页面的业务数据，以及对相应数据的操作。
 - Controller 层是 View 层和 Model 层的纽带，它主要负责用户与应用的响应操作，当用户与页面产生交互的时候，Controller 中的事件触发器就开始工作了，通过调用 Model 层，来完成对 Model 的修改，然后 Model 层再去通知 View 层更新。
 
-MVVM 分为 Model、View、ViewModel。
+2. MVVM 分为 `Model`、`View`、`ViewModel`。
 
 - Model 代表数据模型，数据和业务逻辑都在 Model 层中定义；
 - View 代表 UI 视图，负责数据的展示；
@@ -64,7 +64,7 @@ Model 和 View 并无直接关联，而是通过 ViewModel 来进行联系的，
 打印 this，可以在\_watcher 这个对象的原型上找到 run 这个方法
 
 ```js
-this._watcher.run();
+this._watcher.run()
 ```
 
 ## Computed 和 Watch 有什么区别？
@@ -200,9 +200,9 @@ plugins: [
 
 ```js
 //配置 GZIP 压缩模块
-const compression = require("compression");
+const compression = require("compression")
 //在所有中间件之前引入
-app.use(compression());
+app.use(compression())
 ```
 
 ## Vue 有哪些生命周期钩子?
@@ -223,6 +223,7 @@ Vue 的生命周期钩子核心实现是利用**发布订阅模式**先把用户
 - updated：发生在更新完成之后，当前阶段组件 `Dom` 已完成更新。要**注意**的是避免在此期间更改数据，因为这可能会导致无限循环的更新。
 - beforeDestroy：发生在实例销毁之前，在当前阶段实例完全可以被使用，我们可以在这时进行善后收尾工作，比如清除计时器。
 - destroyed：发生在实例销毁之后，这个时候只剩下了 dom 空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
+  ![](/images/vue3/vue3-2.png)
 
 ## 什么是自定义指令？有哪些生命周期？
 
@@ -335,8 +336,8 @@ hash 路由模式的实现主要是基于下面几个特性：
 HTML5 提供了 History API 来实现 URL 的变化。其中做最主要的 API 有以下两个：history.pushState() 和 history.repalceState()。这两个 API 可以在不进行刷新的情况下，操作浏览器的历史纪录。唯一不同的是，前者是新增一个历史记录，后者是直接替换当前的历史记录，如下所示：
 
 ```js
-window.history.pushState(null, null, path);
-window.history.replaceState(null, null, path);
+window.history.pushState(null, null, path)
+window.history.replaceState(null, null, path)
 ```
 
 history 路由模式的实现主要基于存在下面几个特性：
@@ -362,14 +363,14 @@ export default {
           this.$store.state,
           JSON.parse(sessionStorage.getItem("store"))
         )
-      );
+      )
     }
     //在页面刷新时将vuex里的信息保存到sessionStorage里
     window.addEventListener("beforeunload", () => {
-      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
-    });
+      sessionStorage.setItem("store", JSON.stringify(this.$store.state))
+    })
   },
-};
+}
 ```
 
 [参考文献](https://xie.infoq.cn/article/10652fd79635f1e4fc6e45673)

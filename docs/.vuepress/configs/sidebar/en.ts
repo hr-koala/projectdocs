@@ -1,4 +1,4 @@
-import { SidebarConfig } from "vuepress";
+import { SidebarConfig } from "vuepress"
 
 export const sidebarEn: SidebarConfig = [
   {
@@ -13,6 +13,34 @@ export const sidebarEn: SidebarConfig = [
       { text: "Vue的diff算法", link: "/vue/diff" },
       { text: "SPA首屏加载速度慢的怎么解决?", link: "/vue/first_page_time" },
       { text: "对keep-alive的理解是什么?", link: "/vue/keepalive" },
+      { text: "Vue中key的原理吗？对它的理解", link: "/vue/key" },
+      { text: "长列表", link: "/vue/long-list" },
+      // { text: "Vue中的$nextTick有什么作用", link: "/vue/nexttick" },
+      // { text: "Vue.observable你了解过?", link: "/vue/observable" },
+      // {
+      //   text: "vue要做权限管理该怎么做？如果控制到按钮级别的权限怎么做？",
+      //   link: "/vue/permission",
+      // },
+      // { text: "对 pinia 的理解", link: "/vue/pinia" },
+      // {
+      //   text: "你对SPA单页面的理解，它的优缺点分别是什么？如何实现SPA应用呢?",
+      //   link: "/vue/single-page",
+      // },
+      // {
+      //   text: "SSR解决了什么问题？有做过SSR吗？你是怎么做的?",
+      //   link: "/vue/ssr",
+      // },
+      // { text: "token / 权限管理", link: "/vue/token" },
+      // {
+      //   text: "什么是虚拟DOM？如何实现一个虚拟DOM?",
+      //   link: "/vue/virtual_dom",
+      // },
+      // {
+      //   text: "Vue 14 种组件通讯",
+      //   link: "/vue/vue_component_communication",
+      // },
+      // { text: "对 vue 的理解", link: "/vue/vue" },
+      // { text: "new Vue()做了什么?", link: "/vue/vue2" },
     ],
   },
   {
@@ -20,7 +48,24 @@ export const sidebarEn: SidebarConfig = [
     link: "/vue3/designgoals",
     collapsible: true,
     children: [
+      // {
+      //   text: "Vue3.0 的 Composition Api 与 Vue2.x的 Options Api有什么不同?",
+      //   link: "/vue3/composition_options_api",
+      // },
+      // { text: "妙用 computed 拦截 v-model ", link: "/vue3/computed_model" },
       { text: "Vue3.0 的设计目标是?做了哪些优化?", link: "/vue3/designgoals" },
+      // { text: "monorepo ", link: "/vue3/monorepo_vue3" },
+      // {
+      //   text: "Vue3.0 性能提升主要是通过哪几方面体现的?",
+      //   link: "/vue3/performance_improvement",
+      // },
+      // {
+      //   text: "Vue3.0 里为什么要用 Proxy API 替代 defineProperty API ?",
+      //   link: "/vue3/proxy_defineproperty",
+      // },
+      // { text: "scroll 无限滚动/虚拟列表 ", link: "/vue3/scroll" },
+      // { text: "Vue 3.0中Treeshaking特性?", link: "/vue3/treeshaking" },
+      // { text: "vue2 升级vue3 ", link: "/vue3/vue2_vue3" },
     ],
   },
   {
@@ -52,6 +97,50 @@ export const sidebarEn: SidebarConfig = [
       { text: "异步?Event Loop?", link: "/javascript/javascript3" },
       { text: "javascript常见问题(一)", link: "/javascript/javascriptp1" },
       { text: "javascript常见问题(二)", link: "/javascript/javascriptp2" },
+
+      // { text: "防抖/节流", link: "/javascript/throttle" },
+      // { text: "什么是d3？怎样使用d3？", link: "/javascript/d3js" },
+      // {
+      //   text: "javascript-questions",
+      //   link: "/javascript/javascript_questions",
+      // },
+      // { text: "实现一个 new 操作符", link: "/javascript/new" },
+      // { text: "javascript字符串常用api", link: "/javascript/string_api" },
+      // { text: "Svg、Png 转 Base64 ", link: "/javascript/svg_base64" },
+      // ["JavaScript/data_type", "说说JavaScript中的数据类型？存储上的差别？"],
+      // ["JavaScript/array_api", "数组的常用方法有哪些？"],
+      // ["JavaScript/string_api", "JavaScript字符串的常用方法有哪些？"],
+      // ["JavaScript/type_conversion", "谈谈 JavaScript 中的类型转换机制"],
+      // ["JavaScript/== _===", "== 和 ===区别，分别在什么情况使用"],
+      // ["JavaScript/copy", "深拷贝浅拷贝的区别？如何实现一个深拷贝？"],
+      // ["JavaScript/closure", "说说你对闭包的理解？闭包使用场景"],
+      // ["JavaScript/scope", "说说你对作用域链的理解"],
+      // ["JavaScript/prototype", "JavaScript原型，原型链 ? 有什么特点？"],
+      // ["JavaScript/inherit", "Javascript如何实现继承？"],
+      // ["JavaScript/this", "谈谈this对象的理解"],
+      // ["JavaScript/context_stack", "JavaScript中执行上下文和执行栈是什么？"],
+      // ["JavaScript/event_Model", "说说JavaScript中的事件模型"],
+      // ["JavaScript/typeof_instanceof", "typeof 与 instanceof 区别"],
+      // ["JavaScript/event_agent", "解释下什么是事件代理？应用场景？"],
+      // ["JavaScript/new", "说说new操作符具体干了什么？"],
+      // ["JavaScript/ajax", "ajax原理是什么？如何实现？"],
+      // ["JavaScript/bind_call_apply", "bind、call、apply 区别？如何实现一个bind?"],
+      // ["JavaScript/regexp", "说说你对正则表达式的理解？应用场景？"],
+      // ["JavaScript/event_loop", "说说你对事件循环的理解"],
+      // ["JavaScript/Dom", "DOM常见的操作有哪些？"],
+      // ["JavaScript/BOM", "说说你对BOM的理解，常见的BOM对象你了解哪些？"],
+      // ["JavaScript/tail_recursion", "举例说明你对尾递归的理解，有哪些应用场景"],
+      // ["JavaScript/memory_leak", "说说 JavaScript 中内存泄漏的几种情况？"],
+      // ["JavaScript/cache", "Javascript本地存储的方式有哪些？区别及应用场景？"],
+      // ["JavaScript/functional_programming", "说说你对函数式编程的理解？优缺点？"],
+      // ["JavaScript/function_cache", "Javascript中如何实现函数缓存？函数缓存有哪些应用场景？"],
+      // ["JavaScript/loss_accuracy", "说说 Javascript 数字精度丢失的问题，如何解决？"],
+      // ["JavaScript/debounce_throttle", "什么是防抖和节流？有什么区别？如何实现？"],
+      // ["JavaScript/visible", "如何判断一个元素是否在可视区域中？"],
+      // ["JavaScript/continue_to_upload", "大文件上传如何做断点续传？"],
+      // ["JavaScript/pull_up_loading_pull_down_refresh", "如何实现上拉加载，下拉刷新？"],
+      // ["JavaScript/single_sign", "什么是单点登录？如何实现？"],
+      // ["JavaScript/security", "web常见的攻击方式有哪些？如何防御？"],
     ],
   },
   {
@@ -59,7 +148,77 @@ export const sidebarEn: SidebarConfig = [
     link: "/es6/let_const",
     collapsible: true,
     children: [
+      // { text: "数组扁平化, 数组去重", link: "/es6/arr_flat" },
       { text: "说说var、let、const之间的区别", link: "/es6/let_const" },
+      // { text: "怎么理解ES6中 Promise的? 使用场景?", link: "/es6/promise" },
+      // { text: "模拟实现 Promise", link: "/es6/promise2" },
+      // { text: " Promise 经典题", link: "/es6/promise3" },
+      // {
+      //   text: "怎么理解ES6新增Set、Map两种数据结构的?",
+      //   link: "/es6/set_map",
+      // },
+    ],
+  },
+  {
+    text: "NodeJS 系列",
+    link: "/nodejs/nodejs",
+    collapsible: true,
+    children: [
+      { text: "对nodejs的理解", link: "/nodejs/nodejs" },
+      // { text: "nvm 安装、node 版本切换管理", link: "/nodejs/nvm" },
+      // { text: "TypeORM 框架", link: "/nodejs/typeorm" },
+      // { text: "TypeORM 框架", link: "/nodejs/typeormconnection" },
+    ],
+  },
+  // {
+  //   text: "TypeScript 系列",
+  //   link: "/typescript/typescript",
+  //   collapsible: true,
+  //   children: [{ text: "对typescript 的理解", link: "/typescript/typescript" }],
+  // },
+  {
+    text: "Webpack 系列",
+    link: "/webpack/loader_plugin",
+    collapsible: true,
+    children: [
+      {
+        text: "说说Loader和Plugin的区别?编写Loader,Plugin的思路?",
+        link: "/webpack/loader_plugin",
+      },
+      // {
+      //   text: "说说webpack中常见的Loader?解决了什么问题?",
+      //   link: "/webpack/loader",
+      // },
+      // {
+      //   text: "说说webpack中常见的Plugin?解决了什么问题?",
+      //   link: "/webpack/plugin",
+      // },
+      // {
+      //   text: "对webpack的理解?解决了什么问题?",
+      //   link: "/webpack/webpack",
+      // },
+    ],
+  },
+  {
+    text: "Vite 系列",
+    link: "/vite/error_questions",
+    collapsible: true,
+    children: [
+      { text: "vite 开发常见报错问题", link: "/vite/error_questions" },
+      // { text: "对 vite 的理解 ", link: "/vite/vite" },
+    ],
+  },
+  {
+    text: "Plugins 系列",
+    link: "/plugins/fusejs",
+    collapsible: true,
+    children: [
+      { text: "对 fuse.js 的理解 ", link: "/plugins/fusejs" },
+      { text: "对 Electron 的理解 ", link: "/plugins/electron" },
+      // { text: "对 fuse.js 的理解 ", link: "/plugins/fusejs" },
+      // { text: "对 SockJS 的理解 ", link: "/plugins/sockjs" },
+      // { text: "对 Sortable 的理解 ", link: "/plugins/sortablejs" },
+      // { text: "对 wangeditor 的理解 ", link: "/plugins/wang_editor" },
     ],
   },
   {
@@ -75,31 +234,21 @@ export const sidebarEn: SidebarConfig = [
         text: "说说地址栏输入 URL 敲下回车后发生了什么?",
         link: "/http/after_url",
       },
-    ],
-  },
-  {
-    text: "NodeJS 系列",
-    link: "/nodejs/nodejs",
-    collapsible: true,
-    children: [{ text: "对nodejs的理解", link: "/nodejs/nodejs" }],
-  },
-  {
-    text: "Webpack 系列",
-    link: "/webpack/loader_plugin",
-    collapsible: true,
-    children: [
-      {
-        text: "说说Loader和Plugin的区别?编写Loader,Plugin的思路?",
-        link: "/webpack/loader_plugin",
-      },
-    ],
-  },
-  {
-    text: "Vite 系列",
-    link: "/vite/error_questions",
-    collapsible: true,
-    children: [
-      { text: "vite 开发常见报错问题", link: "/vite/error_questions" },
+      // { text: "对WebSocket的理解？应用场景?", link: "/http/WebSocket" },
+      // { text: "node为vue获取本机IP地址", link: "/http/get_network_ip" },
+      // ["http/HTTPS", "为什么说HTTPS比HTTP安全? HTTPS是如何保证安全的？"],
+      // ["http/UDP_TCP", "如何理解UDP 和 TCP? 区别? 应用场景?"],
+      // ["http/OSI", "如何理解OSI七层模型?"],
+      // ["http/TCP_IP", "如何理解TCP/IP协议?"],
+      // ["http/DNS", "DNS协议 是什么？说说DNS 完整的查询过程?"],
+      // ["http/CDN", "如何理解CDN？说说实现原理？"],
+      // ["http/1.0_1.1_2.0", "说说 HTTP1.0/1.1/2.0 的区别?"],
+      // ["http/status", "说说 HTTP 常见的状态码有哪些，适用场景？"],
+      // ["http/GET_POST", "说一下 GET 和 POST 的区别？"],
+      // ["http/headers", "说说 HTTP 常见的请求头有哪些? 作用？"],
+      // ["http/after_url", "说说地址栏输入 URL 敲下回车后发生了什么？"],
+      // ["http/handshakes_waves", "说说TCP为什么需要三次握手和四次挥手？"],
+      // ["http/WebSocket", "说说对WebSocket的理解？应用场景？"]
     ],
   },
   {
@@ -109,9 +258,23 @@ export const sidebarEn: SidebarConfig = [
     children: [{ text: "css 常见问题", link: "/css/css" }],
   },
   {
-    text: "Plugins 系列",
-    link: "/plugins/fusejs",
+    text: "Browser 系列",
+    link: "/browser/browser",
     collapsible: true,
-    children: [{ text: "对 fuse.js 的理解 ", link: "/plugins/fusejs" }],
+    children: [{ text: "对 browser 的理解", link: "/browser/browser" }],
   },
-];
+  // {
+  //   text: "APP 系列",
+  //   link: "/h5app/h5app",
+  //   collapsible: true,
+  //   children: [{ text: "对h5app 的理解", link: "/h5app/h5app" }],
+  // },
+  // {
+  //   text: "小程序 系列",
+  //   link: "/mobile_applet/mobile_applet",
+  //   collapsible: true,
+  //   children: [
+  //     { text: "对 小程序 的理解", link: "/mobile_applet/mobile_applet" },
+  //   ],
+  // },
+]

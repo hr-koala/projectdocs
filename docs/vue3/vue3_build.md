@@ -4,12 +4,236 @@
 
 - `normalize.css` 重置样式文件并在 `main.js` 中引入
 - 图片和项目中的公共样式添加到 assets 目录下(静态资源)
+- tsconfig.json 配置别名路径
+- 安装 elementPlus 和自动导入插件
+- 安装 sass ; 样式资源 - 把 common.scss 文件放到 styles 目录下
+- 安装 axios
 
 ```tsx
 const app = createApp(App) //表示：创建一个应用，渲染指定的组件App.vue
 app.mount("#root") // 表示：将组件挂载到页面指定位置（App.vue中id为 root 的标签）
 // 在 vue 3.x 的版本中，<template> 节点内的 DOM 结构支持多个根节点。
 // 注意：<template> 是 vue 提供的容器标签，只起到包裹性质的作用，它不会被渲染为真正的 DOM 元素。
+```
+
+```tsx
+// tsconfig.json
+{
+  "compilerOptions" : {
+    "baseUrl" : "./",
+    "paths" : {
+      "@/*":["src/*"]
+    }
+  }
+}
+```
+
+```tsx
+// vite.config.ts
+import { fileURLToPath, URL } from "node:url"
+import { defineConfig } from "vite"
+import vue from "@vitejs/plugin-vue"
+// elementPlus和自动导入插件 `npm install -D unplugin-vue-components unplugin-auto-import`
+import AutoImport from "unplugin-auto-import/vite"
+import Components from "unplugin-vue-components/vite"
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+// 按需定制主题配置 （需要安装 unplugin-element-plus）
+import ElementPlus from "unplugin-element-plus/vite"
+export default defineConfig({
+  plugins: [
+    vue(),
+    // 配置插件
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [
+        ElementPlusResolver(),
+        // ElementPlusResolver({importStyle:"sass"}) // 1.配置elementPlus采用sass样式配色系统
+      ],
+    }),
+    // 按需定制主题配置
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 自动导入定制化样式文件进行样式覆盖
+        additionalData: `
+          @use "@/styles/element/index.scss" as *;
+          @use "@/styles/var.scss" as *;
+        `,
+      },
+    },
+  },
+})
+```
+
+```tsx
+// 安装sass `npm i sass -D`
+// styles/element/index.scss
+/* 只需要重写你需要的即可 */
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      // 主色
+      'base': #27ba9b,
+    ),
+    'success': (
+      // 成功色
+      'base': #1dc779,
+    ),
+    'warning': (
+      // 警告色
+      'base': #ffb302,
+    ),
+    'danger': (
+      // 危险色
+      'base': #e26237,
+    ),
+    'error': (
+      // 错误色
+      'base': #cf4444,
+    ),
+  )
+)
+```
+
+```scss
+// var.scss
+$xtxColor: #27ba9b;
+$helpColor: #e26237;
+$sucColor: #1dc779;
+$warnColor: #ffb302;
+$priceColor: #cf4444;
+```
+
+```tsx
+// utils/http.js
+import axios from "axios"
+
+// 创建axios实例
+const instance = axios.create({
+  baseURL: "http://pcapi-front-devtest.net",
+  timeout: 5000,
+})
+// axios请求拦截器
+instance.interceptors.request.use(
+  (config) => {
+    return config
+  },
+  (e) => Promise.reject(e)
+)
+// axios响应式拦截器
+instance.interceptors.response.use(
+  (res) => res.data,
+  (e) => {
+    return Promise.reject(e)
+  }
+)
+export default instance
+// function getAPI () {  return http({    url: 'api/xx'  })}
+```
+
+```tsx
+// router/index.js
+import { createRouter, createWebHistory } from "vue-router"
+// createRouter：创建router实例对象
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL), // createWebHistory：创建history模式的路由
+  // path和component对应关系的位置
+  routes: [
+    {
+      path: "/",
+      name: "Layout",
+      component: () => import("@/views/Layout/index.vue"),
+      children: [
+        {
+          path: "",
+          name: "Home",
+          component: () => import("@/views/Home/index.vue"),
+        },
+        {
+          path: "category",
+          name: "Category",
+          component: () => import("@/views/Category/index.vue"),
+        },
+      ],
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("@/views/Login/index.vue"),
+    },
+  ],
+  // 路由滚动行为定制
+  scrollBehavior() {
+    return {
+      top: 0,
+    }
+  },
+})
+export default router
+```
+
+- 路由缓存问题解决
+
+> 缓存问题：当路由 path 一样，参数不同的时候会选择直接复用路由对应的组件
+> 解决方案：
+>
+> 1. 给 routerv-view 添加 `key` 属性，破坏缓存
+> 2. 使用 `onBeforeRouteUpdate` 钩子函数，做精确更新
+
+- `useIntersectionObserver`
+
+```tsx
+// 定义懒加载插件
+import { useIntersectionObserver } from "@vueuse/core"
+export const lazyPlugin = {
+  install(app) {
+    // 懒加载指令逻辑
+    app.directive("img-lazy", {
+      mounted(el, binding) {
+        // el: 指令绑定的那个元素 img
+        // binding: binding.value  指令等于号后面绑定的表达式的值  图片url
+        console.log(el, binding.value)
+        const { stop } = useIntersectionObserver(el, ([{ isIntersecting }]) => {
+          if (isIntersecting) {
+            // 进入视口区域
+            el.src = binding.value
+            stop()
+          }
+        })
+      },
+    })
+  },
+}
+```
+
+- 全局组件统一插件化
+
+```tsx
+// 把components中的所组件都进行全局化注册
+// 通过插件的方式
+import ImageView from "./ImageView/index.vue"
+import XXX from "./XXX/index.vue"
+export const componentPlugin = {
+  install(app) {
+    // app.component('组件名字'，组件配置对象)
+    app.component("XtxImageView", ImageView)
+    app.component("XXX", XXX)
+  },
+}
+// 引入全局组件插件
+import { componentPlugin } from "@/components"
+app.use(componentPlugin)
 ```
 
 ### 2. setup()
