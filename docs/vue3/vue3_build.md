@@ -332,3 +332,19 @@ app.use(componentPlugin)
 > 2. 底层组件通过 inject 函数提供数据 `inject('key')`
 > 3. 在调用 provide 函数时，第二个参数设置为 ref 对象 `provide('key',ref对象)`
 > 4. 顶层组件可以向底层组件传递方法，底层组件调用方法修改顶层组件的数据 `const setCount=()=>{}; provide('key',setCount)`
+```tsx
+// 为了增加 provide 值和 inject 值之间的响应性，我们可以在 provide 值时使用 ref 或 reactive。
+const location=ref('North')
+const geolocation=reactive({longitude:90})
+const updateLocation=()=>{}
+provide('location',location)
+provide('geolocation',geolocation)
+provide('updateLocation',updateLocation)  //传入一个方法
+const useGeolocation=inject('geolocation')
+const useLocation =inject('location')
+const useUpdateLocation =inject('updateLocation')  //执行该方法，触发祖先组件方法执行，从而改变数据
+// 使用readonly，数据只读
+provide('location', readonly(location))
+provide('geolocation', readonly(geolocation))
+
+```

@@ -221,6 +221,8 @@ Vue.component('my-component', () => import('./MyComponent.vue'))
 
 // Vue 3
 const MyComponent = defineAsyncComponent(() => import('./MyComponent.vue'))
+```
+
 在 Vue 3 中，我们不再需要使用 Vue.component() 来定义组件，而是使用 defineAsyncComponent() 函数来定义异步组件。该函数接受一个返回 Promise 对象的函数作为参数，这个 Promise 对象最终会 resolve 为一个组件定义。
 
 除了上述变化外，Vue 3 还提供了一些其他功能来优化异步组件的性能。例如，Vue 3 可以将异步组件缓存起来，避免重复加载；它还可以将异步组件视为 Suspense 的一部分，从而更好地管理组件之间的加载顺序和错误处理。
@@ -235,8 +237,8 @@ const MyComponent = defineAsyncComponent(() => import('./MyComponent.vue'))
 Vue.js 3.x 版本还引入了一个新的 API emits，它允许开发者在组件中声明其所发出的所有事件，这样可以帮助我们更好地管理组件之间的通信。与 Vue.js 2.x 版本不同，现在我们需要在组件的选项中明确声明该组件可发出的所有事件。这样做有助于提高代码的可读性和维护性。
 
 Vue.js 3.x 版本也将 provide/inject API 进行了一些改进。在 Vue.js 2.x 版本中，provide/inject API 是一种父子组件之间进行依赖注入的方式。但是，在 Vue.js 3.x 版本中，provide/inject API 现在也支持跨组件依赖注入，并且提供了更好的类型检查机制。
-
-更新过度效果的 class 名
+```tsx
+// 更新过度效果的 class 名
 /_ Vue 2 _/
 .v-enter,
 .v-leave-to {
@@ -262,12 +264,14 @@ opacity: 1;
 
 leave-class 已经被重命名为 leave-from-class (在渲染函数或 JSX 中可以写为：leaveFromClass)
 enter-class 已经被重命名为 enter-from-class (在渲染函数或 JSX 中可以写为：enterFromClass)
+```
+
 更新/升级 Watch
 在 Vue 3 中，watch 这个 API 与 Vue 2 有所不同，它在语法和用法上进行了改动。为了让代码更加清晰、简洁，我们需要对 watch 进行升级。
 
 Vue 2 中的 Watch
 在 Vue 2 中，我们可以使用以下方式来监听一个变量：
-
+```tsx
 data() {
 return {
 message: 'Hello, World!'
