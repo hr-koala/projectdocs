@@ -35,6 +35,8 @@ import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 // elementPlus和自动导入插件 `npm install -D unplugin-vue-components unplugin-auto-import`
 import AutoImport from "unplugin-auto-import/vite"
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 // 按需定制主题配置 （需要安装 unplugin-element-plus）
@@ -44,22 +46,41 @@ export default defineConfig({
     vue(),
     // 配置插件
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+      imports: ['vue'],
+      resolvers: [
+        ElementPlusResolver(), // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox...
+        IconsResolver({ prefix: 'Icon' }),// 自动导入图标组件
+      ],
+      // 配置文件生成位置，默认是根目录 /auto-imports.d.ts
+      // dts: 'src/auto-imports.d.ts',
     }),
     Components({
+      // 指定自动导入的组件位置，默认是 src/components
+      // dirs: ['src/components'],
       resolvers: [
-        ElementPlusResolver(),
+        ElementPlusResolver(),// 自动导入 Element Plus 组件
         // ElementPlusResolver({importStyle:"sass"}) // 1.配置elementPlus采用sass样式配色系统
+         IconsResolver({
+          enabledCollections: ['ep'], // element-plus 图标库
+        }),// 自动注册图标组件
       ],
+      // 配置文件生成位置，默认是根目录 /components.d.ts  
+      // dts: 'src/components.d.ts',
     }),
     // 按需定制主题配置
     ElementPlus({
       useSource: true,
     }),
+    Icons({
+      autoInstall: true,
+    }),
   ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // 加载 assets 图片资源，这个别名必须用 / 开头
+      '/images': resolve(__dirname, 'src/assets/img'),
     },
   },
   css: {
@@ -72,6 +93,9 @@ export default defineConfig({
         `,
       },
     },
+  },
+  server: {
+    open: true,
   },
 })
 ```
@@ -326,14 +350,26 @@ app.use(componentPlugin)
 
 ### provide 和 inject
 
+>在Vue中,inject和provide是实现组件之间依赖共享。允许祖先组件通过provide提供依赖，后代组件通过inject注入依赖，实现跨组件通信。
+
 > 顶层组件向任意的底层组件传递数据和方法，实现跨层组件通信
 >
 > 1. 顶层组件通过 provide 函数提供数据 `provide('key',顶层组件中的数据)`
 > 2. 底层组件通过 inject 函数提供数据 `inject('key')`
 > 3. 在调用 provide 函数时，第二个参数设置为 ref 对象 `provide('key',ref对象)`
 > 4. 顶层组件可以向底层组件传递方法，底层组件调用方法修改顶层组件的数据 `const setCount=()=>{}; provide('key',setCount)`
+
+>inject和provide共享的数据是否具备响应式能力？ 
+- provide和inject并不会破坏Vue的响应式系统，如果传递的是响应式对象(如ref或reactive),后代组件会直接引用该响应式对象,自然具备响应式能力。
+- provide 传递的是一个普通值,后代组件只是接收了该值的引用.由于这个值没有被 Vue 的响应式系统追踪，任何变更都不会触发视图更新.
+- inject 和 provide 本身并不自动添加响应式能力，响应式取决于提供的值是否是响应式对象。
+  
 ```tsx
 // 为了增加 provide 值和 inject 值之间的响应性，我们可以在 provide 值时使用 ref 或 reactive。
+const count = 0; // 非响应式数据
+const reactiveCount = computed(() => count); // 转换为响应式
+const reactiveCount = ref(count); // 创建响应式包装
+
 const location=ref('North')
 const geolocation=reactive({longitude:90})
 const updateLocation=()=>{}
@@ -346,5 +382,36 @@ const useUpdateLocation =inject('updateLocation')  //执行该方法，触发祖
 // 使用readonly，数据只读
 provide('location', readonly(location))
 provide('geolocation', readonly(geolocation))
-
 ```
+### 深入理解 inject 和 provide 的响应式特性
+1. provide 的实现原理
+provide 的本质是将一个键值对存储到当前组件实例的 provides 对象中。代码如下：
+```tsx
+function provide(key, value) {
+  const instance = getCurrentInstance(); // 获取当前组件实例
+  if (instance) {
+    instance.provides[key] = value;
+  }
+}
+```
+其中,provides 是一个普通的 JavaScript 对象，存储所有通过 provide 提供的依赖。
+2. inject 的实现原理
+  inject 的本质是从当前组件的父组件中查找 provides 对象对应的值：
+```tsx
+function inject(key) {
+  const instance = getCurrentInstance(); // 获取当前组件实例
+  if (instance) {
+    const parentProvides = instance.parent?.provides; // 获取父组件的 provides
+    return parentProvides[key]; // 返回对应的值
+  }
+}
+```
+3. 关键点：
+- `inject` 返回的是 provides[key] 中存储的值。
+- 如果存储的值是响应式对象( ref 或 reactive),则后代组件可以直接享受到响应式能力。
+- 如果存储的值是普通值，则后代组件接收的只是一个静态引用。
+4. 核心
+inject 和 provide 本身不负责响应式：
+- 它们只是用来传递依赖，是否具备响应式能力取决于提供的值。
+- 如果提供的是响应式对象，后代组件也能享受响应式能力。
+- 如果提供的是普通值，后代组件将无法响应变化。
