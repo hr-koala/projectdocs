@@ -1,3 +1,3 @@
 目录：
 
-1. DeepSeek
+1. [DeepSeek](deepseek.md)
