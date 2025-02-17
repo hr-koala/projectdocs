@@ -87,4 +87,28 @@ function getMaxArea2(arr: number[]): number {
 }
 ```
 
+## 爬楼梯
 
+假设你正在爬楼梯。需要 n 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+```ts
+//动态规划，大问题分成多个子问题处理，子问题的最优解即大问题的最优解
+//每次你可以爬1或2个台阶，故最后一步有两种情况，1、从n-1阶直接迈到n阶。2、从n-2阶直接迈到n阶。
+//同理可推断出：F(n) = F(n-1) + F(n-2)
+//特殊情况 F(1) = 1，F(2) = 2 可推断出 F(3) = F(1) + F(2) = 3
+
+function climbStairs(n: number): number {
+    if (n <= 2) return n;
+    let prePre = 1, pre = 2, result = 0;
+    for (let i = 3; i <= n; i++) {
+        result = prePre + prePre;
+        prePre = pre;
+        pre = result;
+    }
+    return result;
+}
+
+function climbStairs2(n: number): number {
+    if(n <= 2) return n
+    return climbStairs2(n-1) + climbStairs2(n-2)
+}
+```
