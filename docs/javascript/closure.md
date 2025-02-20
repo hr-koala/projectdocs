@@ -1,6 +1,6 @@
 # 说说你对闭包的理解？闭包使用场景
 
-<img src="/images/javascript/closure1.png" alt="闭包" height="230" />
+`<img src="/images/javascript/closure1.png" alt="闭包" height="230" />`
 
 ## 一、什么是闭包
 
