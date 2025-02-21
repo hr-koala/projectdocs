@@ -2,7 +2,7 @@
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 import Stomp from "stompjs";
 
-import { getLocalStorage } from "@szkingdom.koca/template/utils";
+import { getLocalStorage } from "@/utils";
 
 let timer;
 let stompClient;
@@ -65,7 +65,7 @@ export function disconnect() {
 ```
 
 ```ts
-import { getLocalStorage, setLocalStorage } from "@szkingdom.koca/template/utils";
+import { getLocalStorage, setLocalStorage } from "@/utils";
 const server_url = "172.24.16.159:80";
 let socket: any; //ws连接对象
 
@@ -334,7 +334,7 @@ export default Websocket;
 ```
 
 ```ts
-import { getLocalStorage } from "@szkingdom.koca/template/utils";
+import { getLocalStorage } from "@/utils";
 let webSocket; // ws连接对象
 // const serverUrl = "172.24.2.88:12180";
 const serverUrl = "172.24.16.159:12180";
@@ -833,7 +833,7 @@ export class UpcWebsocketClient {
   }
 }
 
-import { getLocalStorage } from "@szkingdom.koca/template/utils";
+import { getLocalStorage } from "@/utils";
 
 export function handleWebsocket() {
   // const serverUrl = "172.24.2.88:12180";
