@@ -336,8 +336,7 @@ export default Websocket;
 ```ts
 import { getLocalStorage } from "@/utils";
 let webSocket; // ws连接对象
-// const serverUrl = "172.24.2.88:12180";
-const serverUrl = "172.24.16.159:12180";
+const serverUrl = "172.24.16.159:80";
 let isConnect = false; //连接状态
 
 let globalCallback = function (e) {
@@ -347,7 +346,7 @@ let reConnectNum = 0; //重连次数
 
 const heartbeatData = {
   action: "sub", // 操作类型 sub/unsub/pub/req 分别表示订阅，取消订阅，发布，和请求
-  channel: "2001:TF2409.CFE", // 主题 格式为 ${func_id}:${business_info}，特殊ping和pong用于心跳
+  channel: "xxx:xxx.xxx", // 主题 格式为 ${func_id}:${business_info}，特殊ping和pong用于心跳
   data: {}, // 发送的消息内容 可选项
 };
 
@@ -836,7 +835,6 @@ export class UpcWebsocketClient {
 import { getLocalStorage } from "@/utils";
 
 export function handleWebsocket() {
-  // const serverUrl = "172.24.2.88:12180";
   const serverUrl = "172.24.16.159:80";
   const token = getLocalStorage("token");
   const url = `ws://${serverUrl}/ws?token=${token}`;
