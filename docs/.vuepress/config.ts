@@ -1,18 +1,13 @@
-import { defineUserConfig, defaultTheme } from "vuepress";
-import { pwaPlugin } from "@vuepress/plugin-pwa";
-import { viteBundler, ViteBundlerOptions } from "@vuepress/bundler-vite";
-import { searchPlugin } from "@vuepress/plugin-search";
-import { docsearchPlugin } from "@vuepress/plugin-docsearch";
+import { defineUserConfig, defaultTheme } from "vuepress"
+import { pwaPlugin } from "@vuepress/plugin-pwa"
+import { viteBundler, ViteBundlerOptions } from "@vuepress/bundler-vite"
+import { searchPlugin } from "@vuepress/plugin-search"
+import { docsearchPlugin } from "@vuepress/plugin-docsearch"
 
-import {
-  head,
-  navbarEn,
-  sidebarEn,
-  navbarZh,
-  sidebarZh,
-} from "./configs/index.ts";
+import { head, navbarEn, sidebarEn, navbarZh, sidebarZh } from "./configs/index.ts"
 
 export default defineUserConfig({
+  base: "/projectdocs/",
   locales: {
     "/": {
       lang: "en-US",
@@ -134,4 +129,4 @@ export default defineUserConfig({
       },
     }),
   ],
-});
+})
