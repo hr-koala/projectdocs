@@ -3,12 +3,13 @@ import { SidebarConfig } from "vuepress"
 export const sidebarEn: SidebarConfig = [
   {
     text: "Vue",
-    link: "vue/axios",
+    prefix: "vue/",
+    link: "/vue/axios",
     collapsible: true,
     children: [
       {
         text: "Vue 项目中有封装过 axios 吗？主要是封装哪方面的？",
-        link: "vue/axios",
+        link: "/vue/axios",
       },
       { text: "Vue的diff算法", link: "/vue/diff" },
       { text: "SPA首屏加载速度慢的怎么解决?", link: "/vue/first_page_time" },
@@ -45,7 +46,7 @@ export const sidebarEn: SidebarConfig = [
   },
   {
     text: "Vue3 系列",
-    link: "vue3/designgoals",
+    link: "/vue3/designgoals",
     collapsible: true,
     children: [
       // {
@@ -53,7 +54,7 @@ export const sidebarEn: SidebarConfig = [
       //   link: "/vue3/composition_options_api",
       // },
       // { text: "妙用 computed 拦截 v-model ", link: "/vue3/computed_model" },
-      { text: "Vue3.0 的设计目标是?做了哪些优化?", link: "vue3/designgoals" },
+      { text: "Vue3.0 的设计目标是?做了哪些优化?", link: "/vue3/designgoals" },
       // { text: "monorepo ", link: "/vue3/monorepo_vue3" },
       // {
       //   text: "Vue3.0 性能提升主要是通过哪几方面体现的?",
@@ -70,33 +71,33 @@ export const sidebarEn: SidebarConfig = [
   },
   {
     text: "React 系列",
-    link: "react/react",
+    link: "/react/react",
     collapsible: true,
     children: [
-      "react/react",
-      "react/react_state",
-      "react/react_life_cycle",
-      "react/react_comp_communicate",
-      "react/react_router",
-      "react/react_redux",
-      "react/react_hooks",
-      "react/react_virtual_dom",
-      { text: "React SetState的 “前世今生”", link: "react/react_setstate" },
-      { text: "React 常见问题点(一)", link: "react/react_problem" },
+      "/react/react",
+      "/react/react_state",
+      "/react/react_life_cycle",
+      "/react/react_comp_communicate",
+      "/react/react_router",
+      "/react/react_redux",
+      "/react/react_hooks",
+      "/react/react_virtual_dom",
+      { text: "React SetState的 “前世今生”", link: "/react/react_setstate" },
+      { text: "React 常见问题点(一)", link: "/react/react_problem" },
     ],
   },
   {
     text: "Javascript 系列",
-    link: "javascript/throttle",
+    link: "/javascript/throttle",
     collapsible: true,
     children: [
-      { text: "什么是柯里化?怎样实现柯里化", link: "javascript/curry" },
-      { text: "对闭包的理解？闭包使用场景", link: "javascript/closure" },
-      { text: "Fun bind/call/apply 原理", link: "javascript/javascript1" },
-      { text: "函数? 对象? Symbol? HTTP?", link: "javascript/javascript2" },
-      { text: "异步?Event Loop?", link: "javascript/javascript3" },
-      { text: "javascript常见问题(一)", link: "javascript/javascriptp1" },
-      { text: "javascript常见问题(二)", link: "javascript/javascriptp2" },
+      { text: "什么是柯里化?怎样实现柯里化", link: "/javascript/curry" },
+      { text: "对闭包的理解？闭包使用场景", link: "/javascript/closure" },
+      { text: "Fun bind/call/apply 原理", link: "/javascript/javascript1" },
+      { text: "函数? 对象? Symbol? HTTP?", link: "/javascript/javascript2" },
+      { text: "异步?Event Loop?", link: "/javascript/javascript3" },
+      { text: "javascript常见问题(一)", link: "/javascript/javascriptp1" },
+      { text: "javascript常见问题(二)", link: "/javascript/javascriptp2" },
 
       // { text: "防抖/节流", link: "/javascript/throttle" },
       // { text: "什么是d3？怎样使用d3？", link: "/javascript/d3js" },
@@ -149,7 +150,7 @@ export const sidebarEn: SidebarConfig = [
     collapsible: true,
     children: [
       // { text: "数组扁平化, 数组去重", link: "/es6/arr_flat" },
-      { text: "说说var、let、const之间的区别", link: "es6/let_const" },
+      { text: "说说var、let、const之间的区别", link: "/es6/let_const" },
       // { text: "怎么理解ES6中 Promise的? 使用场景?", link: "/es6/promise" },
       // { text: "模拟实现 Promise", link: "/es6/promise2" },
       // { text: " Promise 经典题", link: "/es6/promise3" },
@@ -164,7 +165,7 @@ export const sidebarEn: SidebarConfig = [
     link: "/nodejs/nodejs",
     collapsible: true,
     children: [
-      { text: "对nodejs的理解", link: "nodejs/nodejs" },
+      { text: "对nodejs的理解", link: "/nodejs/nodejs" },
       // { text: "nvm 安装、node 版本切换管理", link: "/nodejs/nvm" },
       // { text: "TypeORM 框架", link: "/nodejs/typeorm" },
       // { text: "TypeORM 框架", link: "/nodejs/typeormconnection" },
@@ -178,12 +179,12 @@ export const sidebarEn: SidebarConfig = [
   // },
   {
     text: "Webpack 系列",
-    link: "webpack/loader_plugin",
+    link: "/webpack/loader_plugin",
     collapsible: true,
     children: [
       {
         text: "说说Loader和Plugin的区别?编写Loader,Plugin的思路?",
-        link: "webpack/loader_plugin",
+        link: "/webpack/loader_plugin",
       },
       // {
       //   text: "说说webpack中常见的Loader?解决了什么问题?",
@@ -201,20 +202,20 @@ export const sidebarEn: SidebarConfig = [
   },
   {
     text: "Vite 系列",
-    link: "vite/error_questions",
+    link: "/vite/error_questions",
     collapsible: true,
     children: [
-      { text: "vite 开发常见报错问题", link: "vite/error_questions" },
+      { text: "vite 开发常见报错问题", link: "/vite/error_questions" },
       // { text: "对 vite 的理解 ", link: "/vite/vite" },
     ],
   },
   {
     text: "Plugins 系列",
-    link: "plugins/fusejs",
+    link: "/plugins/fusejs",
     collapsible: true,
     children: [
-      { text: "对 fuse.js 的理解 ", link: "plugins/fusejs" },
-      { text: "对 Electron 的理解 ", link: "plugins/electron" },
+      { text: "对 fuse.js 的理解 ", link: "/plugins/fusejs" },
+      { text: "对 Electron 的理解 ", link: "/plugins/electron" },
       // { text: "对 fuse.js 的理解 ", link: "/plugins/fusejs" },
       // { text: "对 SockJS 的理解 ", link: "/plugins/sockjs" },
       // { text: "对 Sortable 的理解 ", link: "/plugins/sortablejs" },
@@ -223,32 +224,32 @@ export const sidebarEn: SidebarConfig = [
   },
   {
     text: "HTTP 系列 ",
-    link: "http/HTTP_HTTPS",
+    link: "/http/HTTP_HTTPS",
     collapsible: true,
     children: [
       {
         text: "什么是HTTP? HTTP 和 HTTPS 的区别?",
-        link: "http/HTTP_HTTPS",
+        link: "/http/HTTP_HTTPS",
       },
       {
         text: "说说地址栏输入 URL 敲下回车后发生了什么?",
-        link: "http/after_url",
+        link: "/http/after_url",
       },
-      // { text: "对WebSocket的理解？应用场景?", link: "/http/WebSocket" },
-      // { text: "node为vue获取本机IP地址", link: "/http/get_network_ip" },
-      // ["http/HTTPS", "为什么说HTTPS比HTTP安全? HTTPS是如何保证安全的？"],
-      // ["http/UDP_TCP", "如何理解UDP 和 TCP? 区别? 应用场景?"],
-      // ["http/OSI", "如何理解OSI七层模型?"],
-      // ["http/TCP_IP", "如何理解TCP/IP协议?"],
-      // ["http/DNS", "DNS协议 是什么？说说DNS 完整的查询过程?"],
-      // ["http/CDN", "如何理解CDN？说说实现原理？"],
-      // ["http/1.0_1.1_2.0", "说说 HTTP1.0/1.1/2.0 的区别?"],
-      // ["http/status", "说说 HTTP 常见的状态码有哪些，适用场景？"],
-      // ["http/GET_POST", "说一下 GET 和 POST 的区别？"],
-      // ["http/headers", "说说 HTTP 常见的请求头有哪些? 作用？"],
-      // ["http/after_url", "说说地址栏输入 URL 敲下回车后发生了什么？"],
-      // ["http/handshakes_waves", "说说TCP为什么需要三次握手和四次挥手？"],
-      // ["http/WebSocket", "说说对WebSocket的理解？应用场景？"]
+      { text: "对WebSocket的理解？应用场景?", link: "/http/WebSocket" },
+      { text: "node为vue获取本机IP地址", link: "/http/get_network_ip" },
+      ["/http/HTTPS", "为什么说HTTPS比HTTP安全? HTTPS是如何保证安全的？"],
+      ["/http/UDP_TCP", "如何理解UDP 和 TCP? 区别? 应用场景?"],
+      ["/http/OSI", "如何理解OSI七层模型?"],
+      ["/http/TCP_IP", "如何理解TCP/IP协议?"],
+      ["/http/DNS", "DNS协议 是什么？说说DNS 完整的查询过程?"],
+      ["/http/CDN", "如何理解CDN？说说实现原理？"],
+      ["/http/1.0_1.1_2.0", "说说 HTTP1.0/1.1/2.0 的区别?"],
+      ["/http/status", "说说 HTTP 常见的状态码有哪些，适用场景？"],
+      ["/http/GET_POST", "说一下 GET 和 POST 的区别？"],
+      ["/http/headers", "说说 HTTP 常见的请求头有哪些? 作用？"],
+      ["/http/after_url", "说说地址栏输入 URL 敲下回车后发生了什么？"],
+      ["/http/handshakes_waves", "说说TCP为什么需要三次握手和四次挥手？"],
+      ["/http/WebSocket", "说说对WebSocket的理解？应用场景？"],
     ],
   },
   {
@@ -263,18 +264,16 @@ export const sidebarEn: SidebarConfig = [
     collapsible: true,
     children: [{ text: "对 browser 的理解", link: "/browser/browser" }],
   },
-  // {
-  //   text: "APP 系列",
-  //   link: "/h5app/h5app",
-  //   collapsible: true,
-  //   children: [{ text: "对h5app 的理解", link: "/h5app/h5app" }],
-  // },
-  // {
-  //   text: "小程序 系列",
-  //   link: "/mobile_applet/mobile_applet",
-  //   collapsible: true,
-  //   children: [
-  //     { text: "对 小程序 的理解", link: "/mobile_applet/mobile_applet" },
-  //   ],
-  // },
+  {
+    text: "APP 系列",
+    link: "/h5app/h5app",
+    collapsible: true,
+    children: [{ text: "对h5app 的理解", link: "/h5app/h5app" }],
+  },
+  {
+    text: "小程序 系列",
+    link: "/mobile_applet/mobile_applet",
+    collapsible: true,
+    children: [{ text: "对 小程序 的理解", link: "/mobile_applet/mobile_applet" }],
+  },
 ]

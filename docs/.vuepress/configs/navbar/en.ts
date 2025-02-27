@@ -1,8 +1,8 @@
-import { NavbarConfig } from "vuepress";
+import { NavbarConfig } from "vuepress"
 
 export const navbarEn: NavbarConfig = [
-  { text: "大前端", link: "/largeFront" },
-  { text: "算法", link: "/algorithm" },
+  { text: "大前端", link: "/largeFront/" },
+  { text: "算法", link: "/algorithm/" },
   {
     text: "Guide",
     children: [
@@ -15,6 +15,6 @@ export const navbarEn: NavbarConfig = [
       },
     ],
   },
-  { text: "项目管理", link: "/projectManagement" },
-  {text: "其他", link: "/other"}
-];
+  { text: "项目管理", link: "/projectManagement/" },
+  { text: "其他", link: "/other/" },
+]
